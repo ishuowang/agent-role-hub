@@ -11,6 +11,11 @@ Cordis Agent scope through `CreateAgentOptions.setup`.
 > DeepSeek Harness is currently a **developer preview**. Pin the tested release-candidate
 > range, review upstream changes, and rerun compatibility tests before every upgrade.
 
+This document describes the reusable compatibility library. The installable
+[`dsh-rolehub-bridge`](https://github.com/ishuowang/dsh-rolehub-bridge) Profile Bundle adds
+remote Hub discovery, digest-pinned continuable role Sessions, an additive native picker,
+and optional Agent Team Room attachment while keeping this package reusable by other Hosts.
+
 ## Native composition
 
 `createDsharnessSetup(role, options)` returns the trusted setup callback used while the

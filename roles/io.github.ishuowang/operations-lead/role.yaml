@@ -1,0 +1,73 @@
+apiVersion: rolehub.dev/v1alpha1
+kind: AgentRole
+metadata:
+  id: io.github.ishuowang/operations-lead
+  name: operations-lead
+  version: 0.1.0
+  displayName: Operations Lead
+  description: Coordinates incidents, runbooks, handoffs, service levels, and operational improvement through explicit owners and safe escalation.
+  publisher: io.github.ishuowang
+  license: Apache-2.0
+  tags:
+    - operations
+    - incidents
+    - runbooks
+    - reliability
+spec:
+  prompt:
+    path: prompt.md
+    mode: append
+  skills:
+    - name: incident-coordination
+      path: skills/incident-coordination
+      required: true
+  capabilities:
+    required:
+      - id: filesystem.read
+        reason: Read approved runbooks, service maps, and incident evidence.
+      - id: room.message
+        reason: Maintain a shared operational picture in the room.
+    optional:
+      - id: issues.read
+        reason: Review known incidents, owners, and follow-up work.
+      - id: issues.write
+        reason: Create or update an approved operational follow-up item.
+        approval: ask
+      - id: network.fetch
+        reason: Check an approved service status or vendor runbook endpoint.
+        approval: ask
+      - id: room.delegate
+        reason: Request focused diagnosis from an invited specialist.
+        approval: ask
+      - id: memory.read
+        reason: Reuse room-approved service context and definitions.
+      - id: memory.write
+        reason: Record an approved incident decision or durable lesson.
+        approval: ask
+    denied:
+      - id: filesystem.write
+        reason: The reference role proposes runbook changes in conversation.
+      - id: shell.execute
+        reason: It coordinates responders but does not operate production systems.
+      - id: source-control.write
+        reason: It cannot merge runbook or infrastructure changes.
+      - id: secrets.use
+        reason: Production credentials are outside the coordination role.
+      - id: external.publish
+        reason: Customer or public incident communication requires an authorized human.
+      - id: money.spend
+        reason: The role cannot authorize emergency purchases.
+      - id: legal.commit
+        reason: The role cannot make SLA, regulatory, or contractual commitments.
+  isolation:
+    scope: session
+    context: workspace
+    filesystem: read-only
+    network: approval-required
+  limits:
+    maxTurns: 20
+  compatibility:
+    rolehub: '>=0.1.0 <0.2.0'
+  secrets: []
+  evals:
+    path: evals/cases.yaml

@@ -1,0 +1,70 @@
+apiVersion: rolehub.dev/v1alpha1
+kind: AgentRole
+metadata:
+  id: io.github.ishuowang/software-engineer
+  name: software-engineer
+  version: 0.1.0
+  displayName: Software Engineer
+  description: Implements scoped, maintainable code changes with repository awareness, focused verification, and explicit external-action boundaries.
+  publisher: io.github.ishuowang
+  license: Apache-2.0
+  tags:
+    - engineering
+    - implementation
+    - testing
+    - code-review
+spec:
+  prompt:
+    path: prompt.md
+    mode: append
+  skills:
+    - name: change-implementation
+      path: skills/change-implementation
+      required: true
+  capabilities:
+    required:
+      - id: filesystem.read
+        reason: Inspect the relevant code, tests, and repository instructions.
+      - id: filesystem.write
+        reason: Apply the user-approved change within the workspace.
+      - id: source-control.read
+        reason: Inspect diffs and preserve existing work.
+      - id: room.message
+        reason: Report decisions, verification, and unresolved risk.
+    optional:
+      - id: shell.execute
+        reason: Run focused tests, linters, type checks, and non-destructive diagnostics.
+        approval: ask
+      - id: source-control.write
+        reason: Create a commit or push only as a separately approved workflow action.
+        approval: ask
+      - id: issues.read
+        reason: Read linked requirements and acceptance criteria.
+      - id: network.fetch
+        reason: Read approved primary technical documentation when local sources are insufficient.
+        approval: ask
+    denied:
+      - id: secrets.use
+        reason: The role must not retrieve or expose credentials by default.
+      - id: browser.operate
+        reason: Browser automation requires a separately reviewed role and binding.
+      - id: issues.write
+        reason: Issue mutation is outside this reference implementation role.
+      - id: external.publish
+        reason: Deployment, release, and public communication require separate approval.
+      - id: money.spend
+        reason: The role cannot purchase services or approve usage costs.
+      - id: legal.commit
+        reason: The role cannot accept licenses or terms on anyone's behalf.
+  isolation:
+    scope: session
+    context: workspace
+    filesystem: workspace-write
+    network: approval-required
+  limits:
+    maxTurns: 24
+  compatibility:
+    rolehub: '>=0.1.0 <0.2.0'
+  secrets: []
+  evals:
+    path: evals/cases.yaml

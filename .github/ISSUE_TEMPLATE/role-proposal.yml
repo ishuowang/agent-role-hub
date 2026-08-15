@@ -1,0 +1,46 @@
+name: Role proposal
+description: Propose a portable role for the community catalog.
+title: 'role: '
+labels:
+  - role-proposal
+body:
+  - type: input
+    id: name
+    attributes:
+      label: Role name
+      placeholder: io.github.publisher/role-name
+    validations:
+      required: true
+  - type: textarea
+    id: job
+    attributes:
+      label: Job and non-goals
+      description: What should this role do, and what must it refuse or hand off?
+    validations:
+      required: true
+  - type: textarea
+    id: capabilities
+    attributes:
+      label: Capabilities and approvals
+      description: List required/optional/denied capabilities and human approval gates.
+    validations:
+      required: true
+  - type: dropdown
+    id: targets
+    attributes:
+      label: Initial harness targets
+      multiple: true
+      options:
+        - Claude Code
+        - Codex
+        - OpenCode
+        - Pi
+        - DSH
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: evals
+    attributes:
+      label: Suggested evals
+      description: Include normal work, refusal, escalation, and permission-boundary cases.

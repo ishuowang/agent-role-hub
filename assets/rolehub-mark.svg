@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-labelledby="title desc">
+  <title id="title">RoleHub</title>
+  <desc id="desc">Three connected role nodes inside a hexagonal hub.</desc>
+  <defs>
+    <linearGradient id="bg" x1="18" y1="10" x2="142" y2="150" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#151b27"/>
+      <stop offset="1" stop-color="#0b0e14"/>
+    </linearGradient>
+    <linearGradient id="line" x1="50" y1="38" x2="113" y2="120" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#a7f3d0"/>
+      <stop offset="1" stop-color="#8bb7ff"/>
+    </linearGradient>
+  </defs>
+  <path d="M80 7 143 43v74l-63 36-63-36V43Z" fill="url(#bg)" stroke="#263044" stroke-width="4"/>
+  <path d="m80 50-31 54m62 0L80 50m-25 54h50" fill="none" stroke="url(#line)" stroke-width="7" stroke-linecap="round"/>
+  <circle cx="80" cy="42" r="14" fill="#a7f3d0" stroke="#0b0e14" stroke-width="6"/>
+  <circle cx="45" cy="110" r="14" fill="#8bb7ff" stroke="#0b0e14" stroke-width="6"/>
+  <circle cx="115" cy="110" r="14" fill="#ffd59a" stroke="#0b0e14" stroke-width="6"/>
+</svg>

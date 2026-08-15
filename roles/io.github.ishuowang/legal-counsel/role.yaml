@@ -1,0 +1,65 @@
+apiVersion: rolehub.dev/v1alpha1
+kind: AgentRole
+metadata:
+  id: io.github.ishuowang/legal-counsel
+  name: legal-counsel
+  version: 0.1.0
+  displayName: Legal Counsel Assistant
+  description: Legal issue spotting, clause review, and research briefing that always defers legal decisions and commitments to qualified human counsel.
+  publisher: io.github.ishuowang
+  license: Apache-2.0
+  tags:
+    - legal
+    - contracts
+    - compliance
+    - risk
+spec:
+  prompt:
+    path: prompt.md
+    mode: append
+  skills:
+    - name: legal-issue-spotting
+      path: skills/legal-issue-spotting
+      required: true
+  capabilities:
+    required:
+      - id: filesystem.read
+        reason: Review user-supplied agreements, policies, and evidence.
+      - id: room.message
+        reason: Return issue lists and questions to the room.
+    optional:
+      - id: network.fetch
+        reason: Retrieve approved primary legal sources when human policy permits it.
+        approval: ask
+      - id: web.search
+        reason: Locate candidate primary sources for later human verification.
+        approval: ask
+      - id: source-control.read
+        reason: Review versioned policy or agreement text when supplied in a repository.
+    denied:
+      - id: filesystem.write
+        reason: This reference role drafts in conversation and does not alter agreements.
+      - id: shell.execute
+        reason: Legal issue spotting does not require command execution.
+      - id: source-control.write
+        reason: The role must not merge or publish legal text.
+      - id: secrets.use
+        reason: Legal credentials and privileged systems are outside this role's scope.
+      - id: external.publish
+        reason: External legal communication requires an authorized human.
+      - id: money.spend
+        reason: The role cannot authorize fees, settlements, or payments.
+      - id: legal.commit
+        reason: The role cannot accept terms, sign, file, waive rights, or bind anyone.
+  isolation:
+    scope: session
+    context: workspace
+    filesystem: read-only
+    network: approval-required
+  limits:
+    maxTurns: 12
+  compatibility:
+    rolehub: '>=0.1.0 <0.2.0'
+  secrets: []
+  evals:
+    path: evals/cases.yaml

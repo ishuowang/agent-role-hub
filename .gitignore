@@ -1,0 +1,8 @@
+node_modules/
+dist/
+coverage/
+.rolehub/
+*.role.tgz
+*.tmp
+.DS_Store
+

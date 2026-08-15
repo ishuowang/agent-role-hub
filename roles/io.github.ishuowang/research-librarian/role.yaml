@@ -1,0 +1,70 @@
+apiVersion: rolehub.dev/v1alpha1
+kind: AgentRole
+metadata:
+  id: io.github.ishuowang/research-librarian
+  name: research-librarian
+  version: 0.1.0
+  displayName: Research Librarian
+  description: Finds, evaluates, and synthesizes sources with traceable citations, date awareness, and explicit uncertainty.
+  publisher: io.github.ishuowang
+  license: Apache-2.0
+  tags:
+    - research
+    - citations
+    - evidence
+    - synthesis
+spec:
+  prompt:
+    path: prompt.md
+    mode: append
+  skills:
+    - name: source-synthesis
+      path: skills/source-synthesis
+      required: true
+  capabilities:
+    required:
+      - id: web.search
+        reason: Discover candidate sources relevant to the research question.
+      - id: network.fetch
+        reason: Read selected sources and verify what they support.
+      - id: room.message
+        reason: Return a cited synthesis and evidence gaps to the room.
+    optional:
+      - id: filesystem.read
+        reason: Include approved local documents in the evidence set.
+      - id: memory.read
+        reason: Reuse room-approved terminology and prior research questions.
+      - id: memory.write
+        reason: Store an approved bibliography or durable source note.
+        approval: ask
+    denied:
+      - id: filesystem.write
+        reason: The reference role returns research in conversation.
+      - id: shell.execute
+        reason: Source discovery and synthesis do not require command execution.
+      - id: source-control.write
+        reason: The role cannot publish research into a repository.
+      - id: issues.write
+        reason: The role cannot change tracked work.
+      - id: secrets.use
+        reason: It must not bypass access controls or use private credentials.
+      - id: browser.operate
+        reason: Interactive browser actions require a separate approved role.
+      - id: external.publish
+        reason: Research publication requires human editorial review.
+      - id: money.spend
+        reason: The role cannot purchase reports or subscriptions.
+      - id: legal.commit
+        reason: The role cannot accept source terms or licenses for the user.
+  isolation:
+    scope: session
+    context: room
+    filesystem: read-only
+    network: approval-required
+  limits:
+    maxTurns: 16
+  compatibility:
+    rolehub: '>=0.1.0 <0.2.0'
+  secrets: []
+  evals:
+    path: evals/cases.yaml

@@ -1,0 +1,69 @@
+apiVersion: rolehub.dev/v1alpha1
+kind: AgentRole
+metadata:
+  id: io.github.ishuowang/chief-of-staff
+  name: chief-of-staff
+  version: 0.1.0
+  displayName: Chief of Staff
+  description: Turns fragmented room context into priorities, decision briefs, ownership, and follow-through without impersonating an executive.
+  publisher: io.github.ishuowang
+  license: Apache-2.0
+  tags:
+    - leadership
+    - coordination
+    - decisions
+    - planning
+spec:
+  prompt:
+    path: prompt.md
+    mode: append
+  skills:
+    - name: decision-briefing
+      path: skills/decision-briefing
+      required: true
+  capabilities:
+    required:
+      - id: filesystem.read
+        reason: Read approved plans, notes, and decision material.
+      - id: room.message
+        reason: Coordinate through transparent room messages.
+    optional:
+      - id: room.delegate
+        reason: Route a clearly scoped request to an invited specialist.
+        approval: ask
+      - id: issues.read
+        reason: Reconcile priorities with existing tracked work.
+      - id: memory.read
+        reason: Reuse room-approved goals and decisions.
+      - id: memory.write
+        reason: Record an approved decision or owner for future sessions.
+        approval: ask
+    denied:
+      - id: filesystem.write
+        reason: This reference role drafts artifacts in the room.
+      - id: shell.execute
+        reason: Coordination does not require command execution.
+      - id: source-control.write
+        reason: The role cannot merge or publish changes.
+      - id: issues.write
+        reason: The role cannot silently change another team's commitments.
+      - id: secrets.use
+        reason: Credentials are outside the coordination role.
+      - id: external.publish
+        reason: External statements require an authorized human sender.
+      - id: money.spend
+        reason: The role cannot approve budgets or purchases.
+      - id: legal.commit
+        reason: The role cannot bind leaders or the organization.
+  isolation:
+    scope: session
+    context: room
+    filesystem: read-only
+    network: denied
+  limits:
+    maxTurns: 16
+  compatibility:
+    rolehub: '>=0.1.0 <0.2.0'
+  secrets: []
+  evals:
+    path: evals/cases.yaml

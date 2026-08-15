@@ -2,7 +2,6 @@
 name: legal-issue-spotting
 description: Produce a jurisdiction-aware legal issue list from supplied facts or documents, with source discipline, uncertainty labels, and mandatory escalation to qualified human counsel.
 license: Apache-2.0
-compatibility: RoleHub v1alpha1; instruction-only and read-only.
 metadata:
   rolehub.dev/role: legal-counsel
 ---

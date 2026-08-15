@@ -1,40 +1,40 @@
 # Roadmap
 
-## v0.1 — portable, data-only roles
+## v0.1 — portable role foundation
 
-- v1alpha1 JSON Schema and security validator
+- v1alpha1 universal, data-only role schema
 - deterministic lock and role archive
-- static catalog generation
 - instruction-only `SKILL.md` bundles
-- Claude Code, Codex, OpenCode, Pi, and DSH adapter reports
-- reference roles and adversarial eval fixtures
+- security validation and adversarial eval fixtures
 - GitHub PR checks and Pages catalog
 
-## v0.2 — verified federation
+## v0.2 — independent compatibility packages
 
-- external publisher entries
-- immutable GitHub Release verification
-- OCI publication to GHCR
-- provenance and SBOM attestations
-- namespace ownership verification
-- capability and behavior diffs in pull requests
+- zero harness names or platform fields in the role core and role catalog
+- separate compatibility SDK and registry
+- `rolehub compat ...` discovery, inspection, and explicit export
+- native packages for Claude Code, Codex, OpenCode, Pi, and DSHarness
+- digest-bound effective policy receipts and compatibility output locks
+- strict-failure and report-only best-effort conformance tests
 
-## v0.3 — room runtimes
+## v0.3 — verified federation and room runtimes
 
-- generic invite/leave lifecycle SDK
-- DSH Role Runtime adapter
-- Claude and Pi sidecar session managers
-- effective-permission approval UI contract
-- runtime locks, cache reconciliation, and revocation handling
+- external publisher and third-party compatibility entries
+- immutable GitHub Release and OCI verification
+- provenance, SBOM attestations, and namespace ownership verification
+- generic invite/resume/leave lifecycle SDK
+- DSHarness Role Runtime hardened after its developer-preview API stabilizes
+- session managers for dedicated Claude, Codex, OpenCode, and Pi processes
+- runtime cache reconciliation, revocation, and capability/behavior diffs
 
-## v1.0 — stable ecosystem contract
+## v1.0 — stable ecosystem contracts
 
-- stable schema and adapter interface
-- signed catalog metadata and rollback protection
+- stable role protocol and compatibility SDK
+- signed role and compatibility catalog metadata with rollback protection
+- compatibility certification suite and tested harness-version matrix
 - private/enterprise registries and organization allowlists
-- compatibility certification suite
 - documented security response and publisher appeals
 
-Executable tools remain outside ordinary role bundles. If RoleHub later supports code
-extensions, they will use a separate artifact kind, isolated runtime, permission flow,
-and trust policy.
+Executable tools remain outside ordinary role bundles. Any future code extension will use
+a separate artifact kind, isolated runtime, permission flow, and trust policy; it will not
+turn universal roles into plugins.

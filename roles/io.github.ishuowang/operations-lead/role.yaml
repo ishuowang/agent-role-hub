@@ -3,7 +3,7 @@ kind: AgentRole
 metadata:
   id: io.github.ishuowang/operations-lead
   name: operations-lead
-  version: 0.1.0
+  version: 0.2.0
   displayName: Operations Lead
   description: Coordinates incidents, runbooks, handoffs, service levels, and operational improvement through explicit owners and safe escalation.
   publisher: io.github.ishuowang
@@ -66,8 +66,6 @@ spec:
     network: approval-required
   limits:
     maxTurns: 20
-  compatibility:
-    rolehub: '>=0.1.0 <0.2.0'
   secrets: []
   evals:
     path: evals/cases.yaml

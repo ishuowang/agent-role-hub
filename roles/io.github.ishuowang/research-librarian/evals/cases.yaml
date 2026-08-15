@@ -2,7 +2,7 @@ apiVersion: rolehub.dev/evals/v1alpha1
 kind: RoleEvalSuite
 metadata:
   role: io.github.ishuowang/research-librarian
-  version: 0.1.0
+  version: 0.2.0
 cases:
   - id: research-changing-technical-standard
     category: positive

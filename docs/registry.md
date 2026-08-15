@@ -1,55 +1,65 @@
 # Registry and distribution
 
-RoleHub begins as a GitHub-native federated registry.
+RoleHub begins as a GitHub-native federated registry with two independent indexes.
 
-## Source and discovery
+## Role catalog
 
-The official repository contains reference roles and the generated static catalog.
-External publishers keep roles in their own repositories and submit a catalog entry that
-points to an immutable artifact. GitHub Discussions hosts role requests and protocol
-proposals; issues track actionable work.
+The role catalog contains universal role identity, version, immutable digests, publisher,
+license, tags, requested abstract capabilities, trust tier, and revocation state. It does
+not contain a harness list, adapter field, compatibility declaration, target version, or
+native tool mapping.
 
-Publisher names use reverse-domain ownership:
+External publishers keep roles in their own repositories and submit entries pointing to
+immutable artifacts. Publisher names use reverse-domain ownership:
 
 - `io.github.<owner>/<role>` for GitHub identities;
 - `com.example/<role>` after DNS ownership verification; and
 - a reserved project namespace for official roles.
 
-## Artifacts
+## Compatibility registry
 
-MVP artifacts are deterministic archives attached to immutable GitHub Releases. A
-catalog row records the role id and version, source commit, artifact URL, SHA-256 digest,
-manifest digest, publisher, license, requested-capability summary, compatible adapters,
-trust tier, and revocation status.
+The compatibility registry is generated separately. Each entry identifies a package,
+compatibility id and version, supported harness range, transport, implementation summary,
+and documentation. Updating this registry cannot change a role digest or role catalog row.
 
-The OCI phase publishes the same bundle with:
+Built-in packages ship with the CLI. A third-party package must already be installed and
+is loaded only through an explicit `--using <package-specifier>` choice. Registry presence
+does not confer trust: compatibility packages are executable host-side code and require
+normal dependency review and pinning.
+
+Generate both indexes independently:
+
+```bash
+rolehub catalog build --roles roles --out catalog/index.json
+rolehub compat catalog --out compatibility/index.json
+```
+
+## Artifacts and locks
+
+Role artifacts are deterministic archives attached to immutable GitHub Releases. A
+catalog row records the source commit, artifact URL, SHA-256 digest, manifest digest, and
+provenance. The OCI phase will publish the same role bundle as:
 
 ```text
 artifactType: application/vnd.rolehub.agent-role.v1
 config:       application/vnd.rolehub.agent-role.config.v1+json
 ```
 
-Consumers install by digest. Human-friendly versions are resolution hints only.
-
-## Locks
-
-`bundle.lock.json` proves the exact files in one artifact. A runtime creates a separate
-installation lock containing the resolved artifact digest, effective capability grant,
-tool-provider identities, adapter and harness versions, and verification result.
-
-Locks never contain secret values. An active session does not auto-upgrade when the
-catalog changes.
+Consumers install roles by digest. `bundle.lock.json` proves the exact files in one role
+artifact. Compatibility output creates a separate lock containing role digests,
+compatibility identity/version, effective policy digest, and output file hashes. Neither
+lock contains secret values, and active sessions never float to a newer catalog entry.
 
 ## Revocation
 
-Published content is not rewritten. A compromised version is added to
-`catalog/revoked.json` with its digest, reason category, timestamp, and replacement when
-available. New installation must fail. Existing runtimes apply local policy: warn,
-quarantine, or terminate based on severity.
+Published content is not rewritten. A compromised role or compatibility package version
+is marked revoked with its digest/version, reason category, timestamp, and replacement
+when available. New use must fail. Existing hosts apply their local response policy:
+warn, quarantine, or terminate according to severity.
 
 ## Future service
 
-A dedicated registry API is justified only when static discovery no longer meets search,
-federation, mirroring, or enterprise-policy needs. It must retain content-addressed
-artifacts and offline-verifiable metadata rather than becoming a mutable source of role
-content.
+A dedicated registry API is justified only when static discovery no longer serves search,
+federation, mirroring, or enterprise policy. It must retain content-addressed artifacts,
+separate role and compatibility indexes, and offline-verifiable metadata rather than
+becoming a mutable source of role content.

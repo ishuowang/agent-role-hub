@@ -1,0 +1,41 @@
+{
+  "name": "@ishuowang/rolehub-compat-sdk",
+  "version": "0.2.0",
+  "description": "Compatibility-layer contract, effective policy validation, and safe artifact writer for RoleHub.",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./schema/effective-policy-v1alpha1.json": "./schema/effective-policy-v1alpha1.schema.json"
+  },
+  "files": [
+    "dist",
+    "schema",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "prepack": "npm run build && node ../../scripts/normalize-package-files.mjs ."
+  },
+  "peerDependencies": {
+    "@ishuowang/rolehub-core": "^0.2.0"
+  },
+  "dependencies": {
+    "yaml": "^2.8.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ishuowang/agent-role-hub.git",
+    "directory": "packages/compat-sdk"
+  },
+  "license": "Apache-2.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": "^22.19.0 || >=24.0.0"
+  }
+}

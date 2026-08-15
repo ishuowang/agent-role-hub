@@ -2,7 +2,6 @@
 name: incident-coordination
 description: Coordinate an operational incident using evidence, explicit owners, reversible actions, status updates, and a blameless follow-up without directly operating production.
 license: Apache-2.0
-compatibility: RoleHub v1alpha1; instruction-only and read-only.
 metadata:
   rolehub.dev/role: operations-lead
 ---

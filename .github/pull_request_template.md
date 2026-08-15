@@ -1,6 +1,6 @@
 ## What changed
 
-<!-- Describe the role, adapter, protocol, or tooling change. -->
+<!-- Describe the universal role, compatibility package, protocol, or tooling change. -->
 
 ## Why
 
@@ -15,13 +15,13 @@
 
 <!-- If any answer is yes, describe the exact expansion and review evidence. -->
 
-## Compatibility
+## Portability and compatibility
 
-<!-- List affected harnesses and exact/degraded/unsupported mappings. -->
+<!-- Role changes must remain platform-neutral. Compatibility changes should list exact/degraded/unsupported mappings. -->
 
 ## Validation
 
 - [ ] `npm run check`
 - [ ] Catalog regenerated when roles changed
-- [ ] Strict and best-effort adapter behavior tested
+- [ ] Strict and best-effort compatibility behavior tested
 - [ ] No credentials, binaries, scripts, symlinks, or generated drift

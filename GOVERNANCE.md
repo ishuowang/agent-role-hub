@@ -18,10 +18,11 @@ Trust is catalog-owned metadata. A role author cannot declare their own trust ti
 
 ## Compatibility decisions
 
-The core specification represents role intent. Adapters represent harness mechanics.
-When a harness cannot enforce an intent, the adapter must either fail in strict mode or
-surface a precise warning in best-effort mode. Convenience is never a reason to silently
-broaden permissions.
+The core specification represents universal role intent. Independently versioned
+compatibility packages represent harness mechanics. When a harness cannot enforce an
+intent, its compatibility package must either fail in strict mode or surface a precise
+warning in best-effort mode. Convenience is never a reason to silently broaden
+permissions.
 
 Schema changes start as proposals, include compatibility fixtures for at least two
 harnesses, and document migration and security impact. The maintainer makes the final

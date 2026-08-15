@@ -6,9 +6,8 @@ import test from 'node:test'
 
 import { stringify as stringifyYaml } from 'yaml'
 
-import { RoleHubError } from '../../src/errors.js'
-import { loadRole } from '../../src/manifest.js'
-import { loadEffectivePolicy } from '../../src/policy.js'
+import { RoleHubError, loadRole } from '@ishuowang/rolehub-core'
+import { loadEffectivePolicy } from '@ishuowang/rolehub-compat-sdk'
 import { testPolicy } from '../helpers/policy.js'
 
 const repositoryRoot = path.resolve(import.meta.dirname, '../..')
@@ -33,5 +32,16 @@ test('effective policy is digest-bound and rejects denied grants', async (contex
   await assert.rejects(
     loadEffectivePolicy(invalidPath, role, 'opencode'),
     (error) => error instanceof RoleHubError && error.code === 'POLICY_MISMATCH',
+  )
+
+  const sharedConfigurationPath = path.join(temporary, 'missing-configuration-policy.yaml')
+  const { configuration: _configuration, ...legacyEnforcement } = receipt.enforcement
+  await writeFile(
+    sharedConfigurationPath,
+    stringifyYaml({ ...receipt, enforcement: legacyEnforcement }),
+  )
+  await assert.rejects(
+    loadEffectivePolicy(sharedConfigurationPath, role, 'opencode'),
+    (error) => error instanceof RoleHubError && error.code === 'POLICY_INVALID',
   )
 })

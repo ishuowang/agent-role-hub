@@ -2,7 +2,6 @@
 name: source-synthesis
 description: Build a claim-to-source evidence map, evaluate source quality and freshness, reconcile disagreements, and produce a concise cited synthesis.
 license: Apache-2.0
-compatibility: RoleHub v1alpha1; instruction-only.
 metadata:
   rolehub.dev/role: research-librarian
 ---

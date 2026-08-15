@@ -2,7 +2,6 @@
 name: threat-review
 description: Perform defensive threat modeling and evidence-led code review, rank credible abuse paths, and propose testable remediation without active exploitation.
 license: Apache-2.0
-compatibility: RoleHub v1alpha1; instruction-only and read-only.
 metadata:
   rolehub.dev/role: security-reviewer
 ---

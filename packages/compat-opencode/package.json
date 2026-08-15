@@ -1,0 +1,46 @@
+{
+  "name": "@ishuowang/rolehub-compat-opencode",
+  "version": "0.2.0",
+  "description": "RoleHub compatibility layer for OpenCode.",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "prepack": "npm run build && node ../../scripts/normalize-package-files.mjs ."
+  },
+  "peerDependencies": {
+    "@ishuowang/rolehub-core": "^0.2.0",
+    "@ishuowang/rolehub-compat-sdk": "^0.2.0",
+    "@opencode-ai/sdk": ">=1.18.18 <1.19.0"
+  },
+  "peerDependenciesMeta": {
+    "@opencode-ai/sdk": {
+      "optional": true
+    }
+  },
+  "dependencies": {
+    "yaml": "^2.8.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ishuowang/agent-role-hub.git",
+    "directory": "packages/compat-opencode"
+  },
+  "license": "Apache-2.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": "^22.19.0 || >=24.0.0"
+  }
+}

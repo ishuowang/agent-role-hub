@@ -3,7 +3,7 @@ kind: AgentRole
 metadata:
   id: io.github.ishuowang/legal-counsel
   name: legal-counsel
-  version: 0.1.0
+  version: 0.2.0
   displayName: Legal Counsel Assistant
   description: Legal issue spotting, clause review, and research briefing that always defers legal decisions and commitments to qualified human counsel.
   publisher: io.github.ishuowang
@@ -58,8 +58,6 @@ spec:
     network: approval-required
   limits:
     maxTurns: 12
-  compatibility:
-    rolehub: '>=0.1.0 <0.2.0'
   secrets: []
   evals:
     path: evals/cases.yaml

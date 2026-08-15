@@ -1,8 +1,7 @@
 * @ishuowang
 
-/schema/ @ishuowang
-/src/security/ @ishuowang
-/src/adapters/ @ishuowang
+/packages/core/schema/ @ishuowang
+/packages/compat-sdk/ @ishuowang
+/packages/compat-*/ @ishuowang
 /.github/workflows/ @ishuowang
 /catalog/revoked.json @ishuowang
-

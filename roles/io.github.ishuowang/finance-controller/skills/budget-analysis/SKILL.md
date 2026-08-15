@@ -2,7 +2,6 @@
 name: budget-analysis
 description: Analyze budgets, forecasts, cash runway, and actual-versus-plan variance from supplied evidence. Use for financial planning drafts that require explicit assumptions and human review.
 license: Apache-2.0
-compatibility: RoleHub v1alpha1; instruction-only and read-only.
 metadata:
   rolehub.dev/role: finance-controller
 ---

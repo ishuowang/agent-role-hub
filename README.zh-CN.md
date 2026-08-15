@@ -1,114 +1,147 @@
 <div align="center">
   <img src="assets/rolehub-mark.svg" width="112" alt="RoleHub 标志">
   <h1>RoleHub</h1>
-  <p><strong>一个角色，运行在任意 AI Harness。</strong></p>
-  <p>面向 Claude Code、Codex、OpenCode、Pi、DSH 以及未来运行时的可移植、可审查 Agent 角色协议。</p>
+  <p><strong>一个通用角色，运行在任意 AI Harness。</strong></p>
+  <p>角色保持平台无关；运行机制由独立版本、按需选择的兼容包实现。</p>
   <p><a href="README.md">English</a> · <a href="https://ishuowang.github.io/agent-role-hub/">角色目录</a> · <a href="docs/README.md">文档</a> · <a href="CONTRIBUTING.md">贡献角色</a></p>
 </div>
 
 ---
 
-RoleHub 是一个社区驱动的 Agent 角色协议与仓库。每个角色把提示词、只含指令的
-Skill、能力诉求、审批点、隔离要求、运行限制和评测用例放在同一个可验证的数据包里；
-适配器再把这份来源编译给不同 AI Harness。
+RoleHub 是社区驱动的通用 Agent 角色协议与仓库。一个角色只描述身份、提示词、
+指令型 Skill、能力诉求、隔离意图、限制和评测；角色中不出现 Claude、Codex、
+OpenCode、Pi 或 DSHarness 字段。
 
-DSH 只是其中一种实现。核心协议不属于任何厂商，也不会把 Claude Code、Codex、
-OpenCode 或 Pi 的私有字段反向污染公共规范。
+平台支持是另一条供应链。导出或挂载角色时才显式选择兼容包，兼容包与核心协议、
+角色目录分别发布版本。DSHarness 是 DeepSeek Harness 的原生兼容实现，不拥有角色格式。
 
 ![RoleHub 社区角色目录](docs/assets/catalog.png)
 
-## 它解决什么问题
-
-目前大量“角色”被锁在某个产品的全局提示词、Skill 目录或插件中。复制到另一个工具时，
-权限语义、隔离范围和行为约束很容易悄悄丢失。RoleHub 把角色意图与运行机制拆开：
+## 为什么要彻底拆开
 
 ```mermaid
 flowchart LR
-  A[社区角色包] --> V[Schema 与安全校验]
-  V --> D[不可变摘要]
-  D --> P[策略求交]
-  P --> C{Harness 适配器}
-  C --> CL[Claude Code]
-  C --> CX[Codex]
-  C --> OC[OpenCode]
-  C --> PI[Pi]
-  C --> DS[DSH]
+  subgraph U[通用角色供应链]
+    R[角色包] --> C[Core：校验 · 锁定 · 打包]
+    C --> RC[平台无关角色目录]
+  end
+  subgraph K[独立兼容供应链]
+    CP[兼容包] --> CR[兼容层目录]
+  end
+  RC --> X[显式选择并求交]
+  CR --> X
+  P[宿主策略回执] --> X
+  X --> H{原生 Harness 边界}
+  H --> CL[Claude Code]
+  H --> CX[Codex]
+  H --> OC[OpenCode]
+  H --> PI[Pi]
+  H --> DS[DSHarness]
 ```
 
-最终能力永远是：
+真正可运行的能力永远是：
 
 ```text
-角色请求 ∩ 适配器支持 ∩ 宿主策略 ∩ 房间策略 ∩ 用户明确授权
+角色请求 ∩ 兼容层支持 ∩ 宿主策略 ∩ 房间策略 ∩ 用户明确授权
 ```
 
-角色只能“申请”能力，不能给自己授权。
+“通用”表示角色携带可移植意图，不代表所有 Harness 都能完整实现每项行为或安全边界。
+角色只能申请能力，不能给自己授权。
 
 ## 快速开始
 
-需要 Node.js 22+ 与 npm：
+需要 Node.js 22.19+（或 24+）与 npm：
 
 ```bash
 git clone https://github.com/ishuowang/agent-role-hub.git
 cd agent-role-hub
 npm ci
-npm run check
+npm run build
 
-# 查看角色及其可复现文件锁
-npm exec -- rolehub inspect roles/io.github.ishuowang/software-engineer
+# 校验通用角色，并查看可复现文件锁。
+npm exec --prefix packages/cli -- rolehub validate roles
+npm exec --prefix packages/cli -- rolehub inspect roles/io.github.ishuowang/software-engineer
 
-# 预览兼容性，不修改用户全局配置；没有有效策略回执时只生成报告
-npm exec -- rolehub export roles/io.github.ishuowang/software-engineer \
-  --target codex --mode best-effort --out .rolehub-preview/codex
+# 兼容层与角色分开查看。
+npm exec --prefix packages/cli -- rolehub compat list
+npm exec --prefix packages/cli -- rolehub compat inspect codex
+
+# 显式选择兼容层；没有策略回执时只生成报告。
+npm exec --prefix packages/cli -- rolehub compat export roles/io.github.ishuowang/software-engineer \
+  --using codex --mode best-effort --out .rolehub-preview/codex
 ```
 
-运行目标 Harness 之前，请先检查生成的 `rolehub-export.json`。导出过程不会自动安装
-工具、插件、MCP Server，也不会写入凭据。
+自动化 Agent 的安全流程是：校验角色、检查选中的兼容包、提供与角色摘要绑定的策略
+回执、审查 `.rolehub/compatibility-report.json`，最后才启动 Harness。导出只写入指定
+目录，不安装工具、插件或 MCP Server，不写凭据，也不修改用户全局配置。
 
-要生成可启动配置，还必须显式传入 `--policy <receipt.yaml>`。策略回执与准确的角色包
-摘要和目标 Harness 绑定，记录用户授权，以及宿主实际提供的文件系统、网络、审批、
-房间和进程隔离。缺失或不匹配时，即使是 best-effort 也只输出报告。详见
-[有效策略回执](docs/effective-policy.md)。
+外部兼容包可以用已安装的包名显式选择；兼容包是会执行的宿主代码，只应加载可信包：
 
-## 角色包结构
+```bash
+npm exec --prefix packages/cli -- rolehub compat export ./roles/example \
+  --using @publisher/rolehub-compat-example \
+  --policy ./policy.yaml --out ./exports/example
+```
+
+策略回执还要声明平台无关的配置隔离边界：
+
+```yaml
+enforcement:
+  filesystem: os-sandbox
+  network: egress-policy
+  approvals: interactive-broker
+  room: broker
+  process: dedicated
+  configuration: isolated # 不合并用户或项目中的 Harness 配置
+```
+
+`configuration: isolated` 不等于 OS 沙箱；它只证明宿主提供了干净的 Harness 配置
+边界，文件系统和网络仍需要分别强制执行。
+
+## 角色是数据，不是插件
 
 ```text
 roles/io.github.ishuowang/research-librarian/
-├── role.yaml               # 身份、能力诉求、隔离与限制
-├── prompt.md               # 可移植角色提示词
-├── skills/
-│   └── evidence-synthesis/
-│       └── SKILL.md        # v1alpha1 只允许指令内容
-└── evals/
-    └── cases.yaml          # 正向与对抗评测
+├── role.yaml
+├── prompt.md
+├── skills/evidence-synthesis/SKILL.md
+└── evals/cases.yaml
 ```
 
-v1alpha1 会拒绝脚本、二进制、符号链接、包管理生命周期钩子、明文凭据和路径穿越。
-可执行能力提供者由宿主单独安装、审核和授权，不放进社区角色包。
+角色清单只使用 RoleHub 的抽象能力词汇，不包含平台、adapter、target、启动器或原生工具
+名。v1alpha1 还会拒绝脚本、二进制、符号链接、包管理生命周期钩子、明文凭据和路径
+穿越。可执行能力提供者由宿主单独安装、审核和授权。
 
-## 当前适配器
+## 原生兼容实现
 
-| 目标        | 默认输出                           | Skill 策略               | 主要边界                              |
-| ----------- | ---------------------------------- | ------------------------ | ------------------------------------- |
-| Claude Code | 会话级 `--agents` JSON             | 编译进角色提示词         | Native Team 能应用的字段更少          |
-| Codex       | 项目级 `.codex/agents/<role>.toml` | 编译提示词，避免目录污染 | 父会话实时 sandbox/审批覆盖仍会生效   |
-| OpenCode    | 独立 `OPENCODE_CONFIG_DIR`         | 原生显式 Skill           | 配置隔离不等于系统沙箱                |
-| Pi          | 每个房间成员一个 RPC/SDK 进程      | 原生 `--skill` 路径      | 没有原生子 Agent、MCP、审批 UI 或沙箱 |
-| DSH         | Agent Scope Composition            | Agent 级 Skill Registry  | 冷恢复时必须重挂载固定摘要的角色      |
+| 兼容包                                  | 实现方式                               | 必要边界                                        |
+| --------------------------------------- | -------------------------------------- | ----------------------------------------------- |
+| `@ishuowang/rolehub-compat-claude-code` | 会话级 `--agents` JSON                 | 独立 Claude 进程；Skill 编译进角色提示词        |
+| `@ishuowang/rolehub-compat-codex`       | Custom-agent TOML + `codex exec`       | 独立进程，显式设置 sandbox 与审批策略           |
+| `@ishuowang/rolehub-compat-opencode`    | 干净 HOME/XDG + 官方 SDK/server        | 清理项目配置，并另设独立进程/容器与 OS 沙箱     |
+| `@ishuowang/rolehub-compat-pi`          | SDK `ResourceLoader` + `AgentSession`  | 独立进程；文件或 shell 能力需要宿主 OS 沙箱     |
+| `@ishuowang/rolehub-compat-dsharness`   | Cordis `CreateAgentOptions.setup` 组合 | Agent Scope 内挂载提示词、Skill、工具和生命周期 |
 
-每次导出都会把映射标记为 `exact`、`degraded`、`advisory` 或 `unsupported`。
-严格模式遇到无法保留的必要边界会直接失败；best-effort 只会显式降级，不会扩大权限，
-缺少必要能力时也不会生成启动器。
+每个兼容包都把映射标为 `exact`、`degraded`、`advisory` 或 `unsupported`。严格模式
+遇到缺口会关闭；best-effort 可以解释降级，但不会扩大权限，缺少必要行为或强制边界时
+也不会生成启动器。
+
+DeepSeek Harness 目前仍是 **developer preview**。DSHarness 兼容包应锁定已经测试的版本
+范围，并在升级后重新验证。详见 [Claude Code](docs/compatibility/claude-code.md)、
+[Codex](docs/compatibility/codex.md)、[OpenCode](docs/compatibility/opencode.md)、
+[Pi](docs/compatibility/pi.md) 与 [DSHarness](docs/compatibility/dsharness.md)。
 
 ## 社区与治理
 
-GitHub 负责贡献、代码审查、身份、讨论和源历史；Release 提供不可变分发，未来再增加
-OCI 与签名证明。静态目录只是索引，不是可随意覆盖的角色来源。
+GitHub 承担贡献、评审、身份、讨论和来源历史；Release 提供不可变分发，未来增加 OCI
+与签名证明。平台无关的角色目录和兼容层目录彼此独立，都只是索引，不是可被覆盖的
+内容来源。
 
 内置参考角色覆盖财务、法务、秘书/决策协调、运营、研发、研究和安全审查。它们是安全
-起点，不代表任何专业执业资格或组织授权。
+起点，不代表专业执业资格或组织授权。
 
 - [架构](docs/architecture.md)
-- [适配器契约](docs/adapter-contract.md)
+- [兼容层契约](docs/compatibility-contract.md)
 - [有效策略回执](docs/effective-policy.md)
 - [Registry 与信任模型](docs/registry.md)
 - [路线图](docs/roadmap.md)

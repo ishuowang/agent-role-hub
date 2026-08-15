@@ -1,5 +1,5 @@
 name: Bug report
-description: Report a validator, packer, catalog, or adapter defect.
+description: Report a validator, packer, catalog, or compatibility-package defect.
 title: 'bug: '
 labels:
   - bug
@@ -11,10 +11,10 @@ body:
     validations:
       required: true
   - type: input
-    id: target
+    id: compatibility
     attributes:
-      label: Adapter and harness version
-      placeholder: codex / 0.x
+      label: Compatibility package and harness version
+      placeholder: rolehub-compat-codex 0.2.0 / Codex 0.145.0
   - type: textarea
     id: reproduce
     attributes:

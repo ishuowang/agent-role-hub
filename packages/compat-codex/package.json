@@ -1,0 +1,37 @@
+{
+  "name": "@ishuowang/rolehub-compat-codex",
+  "version": "0.2.0",
+  "description": "RoleHub compatibility layer for Codex.",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "prepack": "npm run build && node ../../scripts/normalize-package-files.mjs ."
+  },
+  "peerDependencies": {
+    "@ishuowang/rolehub-core": "^0.2.0",
+    "@ishuowang/rolehub-compat-sdk": "^0.2.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ishuowang/agent-role-hub.git",
+    "directory": "packages/compat-codex"
+  },
+  "license": "Apache-2.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": "^22.19.0 || >=24.0.0"
+  }
+}

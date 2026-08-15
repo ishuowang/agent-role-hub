@@ -3,7 +3,7 @@ kind: AgentRole
 metadata:
   id: io.github.ishuowang/chief-of-staff
   name: chief-of-staff
-  version: 0.1.0
+  version: 0.2.0
   displayName: Chief of Staff
   description: Turns fragmented room context into priorities, decision briefs, ownership, and follow-through without impersonating an executive.
   publisher: io.github.ishuowang
@@ -62,8 +62,6 @@ spec:
     network: denied
   limits:
     maxTurns: 16
-  compatibility:
-    rolehub: '>=0.1.0 <0.2.0'
   secrets: []
   evals:
     path: evals/cases.yaml

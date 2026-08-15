@@ -1,11 +1,10 @@
 import assert from 'node:assert/strict'
-import { cp, mkdtemp, rm, symlink, writeFile } from 'node:fs/promises'
+import { cp, mkdtemp, readFile, rm, symlink, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
 import test from 'node:test'
 
-import { RoleHubError } from '../../src/errors.js'
-import { discoverRoleRoots, loadRole } from '../../src/manifest.js'
+import { RoleHubError, discoverRoleRoots, loadRole } from '@ishuowang/rolehub-core'
 
 const repositoryRoot = path.resolve(import.meta.dirname, '../..')
 const rolesRoot = path.join(repositoryRoot, 'roles')
@@ -30,6 +29,14 @@ test('bundle validation rejects token-shaped secrets', async (context) => {
   const fake = `ghp_${'a'.repeat(40)}`
   await writeFile(path.join(temporary, 'notes.md'), `temporary = ${fake}\n`)
   await assert.rejects(loadRole(temporary), isRoleHubError('SECRET_DETECTED'))
+})
+
+test('universal role schema rejects embedded platform compatibility fields', async (context) => {
+  const temporary = await copyFixture(context)
+  const manifestPath = path.join(temporary, 'role.yaml')
+  const manifest = await readFile(manifestPath, 'utf8')
+  await writeFile(manifestPath, `${manifest}\n  compatibility:\n    target: codex\n`)
+  await assert.rejects(loadRole(temporary), isRoleHubError('SCHEMA_INVALID'))
 })
 
 async function copyFixture(context: test.TestContext): Promise<string> {

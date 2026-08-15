@@ -3,7 +3,7 @@ kind: AgentRole
 metadata:
   id: io.github.ishuowang/research-librarian
   name: research-librarian
-  version: 0.1.0
+  version: 0.2.0
   displayName: Research Librarian
   description: Finds, evaluates, and synthesizes sources with traceable citations, date awareness, and explicit uncertainty.
   publisher: io.github.ishuowang
@@ -63,8 +63,6 @@ spec:
     network: approval-required
   limits:
     maxTurns: 16
-  compatibility:
-    rolehub: '>=0.1.0 <0.2.0'
   secrets: []
   evals:
     path: evals/cases.yaml

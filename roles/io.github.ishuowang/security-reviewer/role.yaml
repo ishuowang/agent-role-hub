@@ -3,7 +3,7 @@ kind: AgentRole
 metadata:
   id: io.github.ishuowang/security-reviewer
   name: security-reviewer
-  version: 0.1.0
+  version: 0.2.0
   displayName: Security Reviewer
   description: Defensive threat modeling and code review that prioritizes evidence, exploitability, remediation, and responsible escalation.
   publisher: io.github.ishuowang
@@ -62,8 +62,6 @@ spec:
     network: approval-required
   limits:
     maxTurns: 20
-  compatibility:
-    rolehub: '>=0.1.0 <0.2.0'
   secrets: []
   evals:
     path: evals/cases.yaml

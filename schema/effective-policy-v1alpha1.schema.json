@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rolehub.dev/schema/effective-policy-v1alpha1.schema.json",
+  "title": "RoleHub effective policy receipt v1alpha1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["apiVersion", "kind", "role", "target", "grants", "enforcement"],
+  "properties": {
+    "apiVersion": { "const": "rolehub.dev/policy/v1alpha1" },
+    "kind": { "const": "EffectiveRolePolicy" },
+    "role": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "bundleDigest"],
+      "properties": {
+        "id": { "type": "string", "minLength": 3, "maxLength": 160 },
+        "bundleDigest": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+      }
+    },
+    "target": { "enum": ["claude", "codex", "opencode", "pi", "dsh"] },
+    "grants": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "filesystem.read",
+          "filesystem.write",
+          "shell.execute",
+          "network.fetch",
+          "web.search",
+          "browser.operate",
+          "source-control.read",
+          "source-control.write",
+          "issues.read",
+          "issues.write",
+          "room.message",
+          "room.delegate",
+          "memory.read",
+          "memory.write",
+          "secrets.use",
+          "external.publish",
+          "money.spend",
+          "legal.commit"
+        ]
+      }
+    },
+    "enforcement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["filesystem", "network", "approvals", "room", "process"],
+      "properties": {
+        "filesystem": { "enum": ["none", "tool-policy", "os-sandbox"] },
+        "network": { "enum": ["none", "tool-policy", "egress-policy"] },
+        "approvals": { "enum": ["none", "interactive-broker"] },
+        "room": { "enum": ["none", "broker"] },
+        "process": { "enum": ["shared", "dedicated"] }
+      }
+    }
+  }
+}

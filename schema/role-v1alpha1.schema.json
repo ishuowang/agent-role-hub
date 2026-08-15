@@ -1,0 +1,239 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rolehub.dev/schema/role-v1alpha1.schema.json",
+  "title": "RoleHub AgentRole v1alpha1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["apiVersion", "kind", "metadata", "spec"],
+  "properties": {
+    "apiVersion": { "const": "rolehub.dev/v1alpha1" },
+    "kind": { "const": "AgentRole" },
+    "metadata": { "$ref": "#/$defs/metadata" },
+    "spec": { "$ref": "#/$defs/spec" }
+  },
+  "$defs": {
+    "portableName": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64,
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "portablePath": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 240,
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\)[A-Za-z0-9][A-Za-z0-9._/-]*$"
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "version",
+        "displayName",
+        "description",
+        "publisher",
+        "license",
+        "tags"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 160,
+          "pattern": "^[a-z0-9]+(?:[.-][a-z0-9]+)*/[a-z0-9]+(?:-[a-z0-9]+)*$"
+        },
+        "name": { "$ref": "#/$defs/portableName" },
+        "version": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)(?:-[0-9A-Za-z.-]+)?(?:\\+[0-9A-Za-z.-]+)?$"
+        },
+        "displayName": { "type": "string", "minLength": 1, "maxLength": 80 },
+        "description": { "type": "string", "minLength": 20, "maxLength": 240 },
+        "publisher": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 96,
+          "pattern": "^[a-z0-9]+(?:[.-][a-z0-9]+)*$"
+        },
+        "license": { "type": "string", "minLength": 1, "maxLength": 64 },
+        "tags": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 12,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/portableName" }
+        }
+      }
+    },
+    "spec": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "prompt",
+        "skills",
+        "capabilities",
+        "isolation",
+        "limits",
+        "compatibility",
+        "secrets",
+        "evals"
+      ],
+      "properties": {
+        "prompt": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["path", "mode"],
+          "properties": {
+            "path": { "$ref": "#/$defs/portablePath" },
+            "mode": { "enum": ["append", "replace"] }
+          }
+        },
+        "skills": {
+          "type": "array",
+          "maxItems": 32,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["name", "path", "required"],
+            "properties": {
+              "name": { "$ref": "#/$defs/portableName" },
+              "path": { "$ref": "#/$defs/portablePath" },
+              "required": { "type": "boolean" }
+            }
+          }
+        },
+        "capabilities": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["required", "optional", "denied"],
+          "properties": {
+            "required": { "$ref": "#/$defs/capabilityList" },
+            "optional": { "$ref": "#/$defs/capabilityList" },
+            "denied": { "$ref": "#/$defs/capabilityList" }
+          }
+        },
+        "isolation": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["scope", "context", "filesystem", "network"],
+          "properties": {
+            "scope": { "enum": ["session", "process"] },
+            "context": { "enum": ["none", "room", "workspace"] },
+            "filesystem": { "enum": ["denied", "read-only", "workspace-write"] },
+            "network": { "enum": ["denied", "approval-required", "allowlisted", "unrestricted"] },
+            "allowedHosts": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 64,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 253,
+                "pattern": "^(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\\.)*[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?$"
+              }
+            }
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": { "network": { "const": "allowlisted" } },
+                "required": ["network"]
+              },
+              "then": { "properties": { "allowedHosts": true }, "required": ["allowedHosts"] },
+              "else": {
+                "properties": { "allowedHosts": true },
+                "not": { "required": ["allowedHosts"] }
+              }
+            }
+          ]
+        },
+        "limits": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["maxTurns"],
+          "properties": {
+            "maxTurns": { "type": "integer", "minimum": 1, "maximum": 200 },
+            "timeoutSeconds": { "type": "integer", "minimum": 1, "maximum": 86400 },
+            "maxOutputBytes": { "type": "integer", "minimum": 1024, "maximum": 10485760 }
+          }
+        },
+        "model": {
+          "type": "object",
+          "additionalProperties": false,
+          "minProperties": 1,
+          "properties": {
+            "class": { "enum": ["fast", "balanced", "reasoning", "frontier"] },
+            "reasoning": { "enum": ["low", "medium", "high", "xhigh"] }
+          }
+        },
+        "compatibility": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["rolehub"],
+          "properties": {
+            "rolehub": { "type": "string", "minLength": 1, "maxLength": 80 }
+          }
+        },
+        "secrets": {
+          "type": "array",
+          "maxItems": 16,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["name", "purpose", "required"],
+            "properties": {
+              "name": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{1,63}$" },
+              "purpose": { "type": "string", "minLength": 8, "maxLength": 200 },
+              "required": { "type": "boolean" }
+            }
+          }
+        },
+        "evals": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["path"],
+          "properties": { "path": { "$ref": "#/$defs/portablePath" } }
+        }
+      }
+    },
+    "capabilityList": {
+      "type": "array",
+      "maxItems": 32,
+      "items": { "$ref": "#/$defs/capabilityRequest" }
+    },
+    "capabilityRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "reason"],
+      "properties": {
+        "id": {
+          "enum": [
+            "filesystem.read",
+            "filesystem.write",
+            "shell.execute",
+            "network.fetch",
+            "web.search",
+            "browser.operate",
+            "source-control.read",
+            "source-control.write",
+            "issues.read",
+            "issues.write",
+            "room.message",
+            "room.delegate",
+            "memory.read",
+            "memory.write",
+            "secrets.use",
+            "external.publish",
+            "money.spend",
+            "legal.commit"
+          ]
+        },
+        "reason": { "type": "string", "minLength": 12, "maxLength": 240 },
+        "approval": { "const": "ask" }
+      }
+    }
+  }
+}

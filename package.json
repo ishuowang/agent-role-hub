@@ -1,0 +1,68 @@
+{
+  "name": "@ishuowang/rolehub",
+  "version": "0.1.0",
+  "description": "Portable, verifiable agent roles for Claude Code, Codex, OpenCode, Pi, DSH, and any AI harness.",
+  "type": "module",
+  "bin": {
+    "rolehub": "./dist/cli.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "schema",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "prepare": "npm run build",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "tsx --test test/**/*.test.ts",
+    "validate:roles": "tsx src/cli.ts validate roles",
+    "catalog": "tsx src/cli.ts catalog build --roles roles --out catalog/index.json --site site/catalog.json",
+    "format:check": "prettier --check .",
+    "format": "prettier --write .",
+    "check": "npm run typecheck && npm test && npm run validate:roles && npm run catalog && git diff --exit-code -- catalog/index.json site/catalog.json"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ishuowang/agent-role-hub.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ishuowang/agent-role-hub/issues"
+  },
+  "homepage": "https://ishuowang.github.io/agent-role-hub/",
+  "funding": "https://ifdian.net/a/burienchow",
+  "keywords": [
+    "ai-agents",
+    "agent-roles",
+    "claude-code",
+    "codex",
+    "opencode",
+    "pi-agent",
+    "multi-agent",
+    "agent-harness"
+  ],
+  "license": "Apache-2.0",
+  "dependencies": {
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1",
+    "commander": "^14.0.0",
+    "tar": "^7.5.2",
+    "yaml": "^2.8.1"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.1",
+    "prettier": "^3.6.2",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3"
+  }
+}

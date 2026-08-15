@@ -1,0 +1,346 @@
+{
+  "apiVersion": "rolehub.dev/catalog/v1alpha1",
+  "generatedBy": "@ishuowang/rolehub@0.1.0",
+  "roles": [
+    {
+      "adapters": [
+        "claude",
+        "codex",
+        "opencode",
+        "pi",
+        "dsh"
+      ],
+      "bundleDigest": "b3f21a47e17da05fbf05ff7d71a194117312ba8c349003bddc5237dec18d56d4",
+      "capabilities": {
+        "denied": [
+          "filesystem.write",
+          "shell.execute",
+          "source-control.write",
+          "issues.write",
+          "secrets.use",
+          "external.publish",
+          "money.spend",
+          "legal.commit"
+        ],
+        "optional": [
+          "room.delegate",
+          "issues.read",
+          "memory.read",
+          "memory.write"
+        ],
+        "required": [
+          "filesystem.read",
+          "room.message"
+        ]
+      },
+      "description": "Turns fragmented room context into priorities, decision briefs, ownership, and follow-through without impersonating an executive.",
+      "displayName": "Chief of Staff",
+      "id": "io.github.ishuowang/chief-of-staff",
+      "license": "Apache-2.0",
+      "manifestDigest": "78e51d0e77e528787399ed72570951f3e5fbe6f4dd792d98da437a9eb98c2e41",
+      "name": "chief-of-staff",
+      "path": "io.github.ishuowang/chief-of-staff",
+      "publisher": "io.github.ishuowang",
+      "tags": [
+        "leadership",
+        "coordination",
+        "decisions",
+        "planning"
+      ],
+      "trust": "reference",
+      "url": "https://github.com/ishuowang/agent-role-hub/tree/main/roles/io.github.ishuowang/chief-of-staff",
+      "version": "0.1.0"
+    },
+    {
+      "adapters": [
+        "claude",
+        "codex",
+        "opencode",
+        "pi",
+        "dsh"
+      ],
+      "bundleDigest": "bc3114e751b2a073699fe6e0a6f804e192215f7d684f5e4b0f84dfd1914f0fb9",
+      "capabilities": {
+        "denied": [
+          "filesystem.write",
+          "shell.execute",
+          "source-control.write",
+          "secrets.use",
+          "external.publish",
+          "money.spend",
+          "legal.commit"
+        ],
+        "optional": [
+          "source-control.read",
+          "memory.read"
+        ],
+        "required": [
+          "filesystem.read",
+          "room.message"
+        ]
+      },
+      "description": "Evidence-led budgeting, forecasting, variance analysis, and financial risk briefing with mandatory human review.",
+      "displayName": "Finance Controller",
+      "id": "io.github.ishuowang/finance-controller",
+      "license": "Apache-2.0",
+      "manifestDigest": "38eba47dcf1dd933bbd61dd6f787445899dcb0c12498c9c1d954e510e8910538",
+      "name": "finance-controller",
+      "path": "io.github.ishuowang/finance-controller",
+      "publisher": "io.github.ishuowang",
+      "tags": [
+        "finance",
+        "budgeting",
+        "forecasting",
+        "risk"
+      ],
+      "trust": "reference",
+      "url": "https://github.com/ishuowang/agent-role-hub/tree/main/roles/io.github.ishuowang/finance-controller",
+      "version": "0.1.0"
+    },
+    {
+      "adapters": [
+        "claude",
+        "codex",
+        "opencode",
+        "pi",
+        "dsh"
+      ],
+      "bundleDigest": "fcf5b836eae5b018df82f52f928f3cbbbe175f435567e0c00d3a618c2e924942",
+      "capabilities": {
+        "denied": [
+          "filesystem.write",
+          "shell.execute",
+          "source-control.write",
+          "secrets.use",
+          "external.publish",
+          "money.spend",
+          "legal.commit"
+        ],
+        "optional": [
+          "network.fetch",
+          "web.search",
+          "source-control.read"
+        ],
+        "required": [
+          "filesystem.read",
+          "room.message"
+        ]
+      },
+      "description": "Legal issue spotting, clause review, and research briefing that always defers legal decisions and commitments to qualified human counsel.",
+      "displayName": "Legal Counsel Assistant",
+      "id": "io.github.ishuowang/legal-counsel",
+      "license": "Apache-2.0",
+      "manifestDigest": "d27e0650976e82f1f25df7febb36db13ddbfba4ebe58929a31fb029e7549d96c",
+      "name": "legal-counsel",
+      "path": "io.github.ishuowang/legal-counsel",
+      "publisher": "io.github.ishuowang",
+      "tags": [
+        "legal",
+        "contracts",
+        "compliance",
+        "risk"
+      ],
+      "trust": "reference",
+      "url": "https://github.com/ishuowang/agent-role-hub/tree/main/roles/io.github.ishuowang/legal-counsel",
+      "version": "0.1.0"
+    },
+    {
+      "adapters": [
+        "claude",
+        "codex",
+        "opencode",
+        "pi",
+        "dsh"
+      ],
+      "bundleDigest": "e9e8b71200161515b0c2e37600a9f15deedade3ced40dec167f66f42b968b8aa",
+      "capabilities": {
+        "denied": [
+          "filesystem.write",
+          "shell.execute",
+          "source-control.write",
+          "secrets.use",
+          "external.publish",
+          "money.spend",
+          "legal.commit"
+        ],
+        "optional": [
+          "issues.read",
+          "issues.write",
+          "network.fetch",
+          "room.delegate",
+          "memory.read",
+          "memory.write"
+        ],
+        "required": [
+          "filesystem.read",
+          "room.message"
+        ]
+      },
+      "description": "Coordinates incidents, runbooks, handoffs, service levels, and operational improvement through explicit owners and safe escalation.",
+      "displayName": "Operations Lead",
+      "id": "io.github.ishuowang/operations-lead",
+      "license": "Apache-2.0",
+      "manifestDigest": "2b0c77003a1a626d292be799224246c544e9ac5ec174eda69ca41574a45dbe26",
+      "name": "operations-lead",
+      "path": "io.github.ishuowang/operations-lead",
+      "publisher": "io.github.ishuowang",
+      "tags": [
+        "operations",
+        "incidents",
+        "runbooks",
+        "reliability"
+      ],
+      "trust": "reference",
+      "url": "https://github.com/ishuowang/agent-role-hub/tree/main/roles/io.github.ishuowang/operations-lead",
+      "version": "0.1.0"
+    },
+    {
+      "adapters": [
+        "claude",
+        "codex",
+        "opencode",
+        "pi",
+        "dsh"
+      ],
+      "bundleDigest": "40e58cf1a7005dd0a8ad576c1d623129501632e5832378a34b0b94226961b416",
+      "capabilities": {
+        "denied": [
+          "filesystem.write",
+          "shell.execute",
+          "source-control.write",
+          "issues.write",
+          "secrets.use",
+          "browser.operate",
+          "external.publish",
+          "money.spend",
+          "legal.commit"
+        ],
+        "optional": [
+          "filesystem.read",
+          "memory.read",
+          "memory.write"
+        ],
+        "required": [
+          "web.search",
+          "network.fetch",
+          "room.message"
+        ]
+      },
+      "description": "Finds, evaluates, and synthesizes sources with traceable citations, date awareness, and explicit uncertainty.",
+      "displayName": "Research Librarian",
+      "id": "io.github.ishuowang/research-librarian",
+      "license": "Apache-2.0",
+      "manifestDigest": "46839e83865989e21fdb67f5de13a76bc552d72b4518e8ca2725962300f695c7",
+      "name": "research-librarian",
+      "path": "io.github.ishuowang/research-librarian",
+      "publisher": "io.github.ishuowang",
+      "tags": [
+        "research",
+        "citations",
+        "evidence",
+        "synthesis"
+      ],
+      "trust": "reference",
+      "url": "https://github.com/ishuowang/agent-role-hub/tree/main/roles/io.github.ishuowang/research-librarian",
+      "version": "0.1.0"
+    },
+    {
+      "adapters": [
+        "claude",
+        "codex",
+        "opencode",
+        "pi",
+        "dsh"
+      ],
+      "bundleDigest": "d3abbcd154222ffccb2806d1d957f7364eb506b8ec1f80b0b8ca4c2e4bf11bbe",
+      "capabilities": {
+        "denied": [
+          "filesystem.write",
+          "source-control.write",
+          "issues.write",
+          "secrets.use",
+          "browser.operate",
+          "external.publish",
+          "money.spend",
+          "legal.commit"
+        ],
+        "optional": [
+          "shell.execute",
+          "network.fetch",
+          "issues.read"
+        ],
+        "required": [
+          "filesystem.read",
+          "source-control.read",
+          "room.message"
+        ]
+      },
+      "description": "Defensive threat modeling and code review that prioritizes evidence, exploitability, remediation, and responsible escalation.",
+      "displayName": "Security Reviewer",
+      "id": "io.github.ishuowang/security-reviewer",
+      "license": "Apache-2.0",
+      "manifestDigest": "016f92ae2deddf6f245ac3ae584bd7c1469eb80c7fa74d4fda3442542357422d",
+      "name": "security-reviewer",
+      "path": "io.github.ishuowang/security-reviewer",
+      "publisher": "io.github.ishuowang",
+      "tags": [
+        "security",
+        "threat-modeling",
+        "code-review",
+        "remediation"
+      ],
+      "trust": "reference",
+      "url": "https://github.com/ishuowang/agent-role-hub/tree/main/roles/io.github.ishuowang/security-reviewer",
+      "version": "0.1.0"
+    },
+    {
+      "adapters": [
+        "claude",
+        "codex",
+        "opencode",
+        "pi",
+        "dsh"
+      ],
+      "bundleDigest": "afd59b7c9d41dc25704b2597738fa50dff8cc09dd73ba9b461c9a0f016d9705d",
+      "capabilities": {
+        "denied": [
+          "secrets.use",
+          "browser.operate",
+          "issues.write",
+          "external.publish",
+          "money.spend",
+          "legal.commit"
+        ],
+        "optional": [
+          "shell.execute",
+          "source-control.write",
+          "issues.read",
+          "network.fetch"
+        ],
+        "required": [
+          "filesystem.read",
+          "filesystem.write",
+          "source-control.read",
+          "room.message"
+        ]
+      },
+      "description": "Implements scoped, maintainable code changes with repository awareness, focused verification, and explicit external-action boundaries.",
+      "displayName": "Software Engineer",
+      "id": "io.github.ishuowang/software-engineer",
+      "license": "Apache-2.0",
+      "manifestDigest": "bff7d69af32a41baaa3267f6ab6e330a469ec945cfef59817be12ce73aa4e769",
+      "name": "software-engineer",
+      "path": "io.github.ishuowang/software-engineer",
+      "publisher": "io.github.ishuowang",
+      "tags": [
+        "engineering",
+        "implementation",
+        "testing",
+        "code-review"
+      ],
+      "trust": "reference",
+      "url": "https://github.com/ishuowang/agent-role-hub/tree/main/roles/io.github.ishuowang/software-engineer",
+      "version": "0.1.0"
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+apiVersion: rolehub.dev/v1alpha1
+kind: AgentRole
+metadata:
+  id: io.github.ishuowang/finance-controller
+  name: finance-controller
+  version: 0.1.0
+  displayName: Finance Controller
+  description: Evidence-led budgeting, forecasting, variance analysis, and financial risk briefing with mandatory human review.
+  publisher: io.github.ishuowang
+  license: Apache-2.0
+  tags:
+    - finance
+    - budgeting
+    - forecasting
+    - risk
+spec:
+  prompt:
+    path: prompt.md
+    mode: append
+  skills:
+    - name: budget-analysis
+      path: skills/budget-analysis
+      required: true
+  capabilities:
+    required:
+      - id: filesystem.read
+        reason: Read financial evidence supplied in the approved workspace.
+      - id: room.message
+        reason: Return analysis and escalation notes to the room.
+    optional:
+      - id: source-control.read
+        reason: Inspect versioned assumptions or financial-model changes when provided.
+      - id: memory.read
+        reason: Reuse room-approved definitions and planning assumptions.
+    denied:
+      - id: filesystem.write
+        reason: This reference role produces drafts in conversation only.
+      - id: shell.execute
+        reason: Budget analysis does not require command execution.
+      - id: source-control.write
+        reason: The role must not alter or publish financial records.
+      - id: secrets.use
+        reason: Financial credentials are outside this role's scope.
+      - id: external.publish
+        reason: External financial communication requires an authorized human.
+      - id: money.spend
+        reason: The role cannot approve, initiate, or execute payments.
+      - id: legal.commit
+        reason: The role cannot make commitments on behalf of a person or organization.
+  isolation:
+    scope: session
+    context: workspace
+    filesystem: read-only
+    network: denied
+  limits:
+    maxTurns: 12
+  compatibility:
+    rolehub: '>=0.1.0 <0.2.0'
+  secrets: []
+  evals:
+    path: evals/cases.yaml

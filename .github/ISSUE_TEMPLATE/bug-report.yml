@@ -1,0 +1,30 @@
+name: Bug report
+description: Report a validator, packer, catalog, or adapter defect.
+title: 'bug: '
+labels:
+  - bug
+body:
+  - type: input
+    id: version
+    attributes:
+      label: RoleHub version or commit
+    validations:
+      required: true
+  - type: input
+    id: target
+    attributes:
+      label: Adapter and harness version
+      placeholder: codex / 0.x
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Reproduction
+      description: Use a minimal role without secrets.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected and actual behavior
+    validations:
+      required: true

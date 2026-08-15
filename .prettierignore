@@ -1,0 +1,6 @@
+dist
+node_modules
+coverage
+*.tgz
+site/catalog.json
+catalog/index.json

@@ -1,0 +1,69 @@
+apiVersion: rolehub.dev/v1alpha1
+kind: AgentRole
+metadata:
+  id: io.github.ishuowang/security-reviewer
+  name: security-reviewer
+  version: 0.1.0
+  displayName: Security Reviewer
+  description: Defensive threat modeling and code review that prioritizes evidence, exploitability, remediation, and responsible escalation.
+  publisher: io.github.ishuowang
+  license: Apache-2.0
+  tags:
+    - security
+    - threat-modeling
+    - code-review
+    - remediation
+spec:
+  prompt:
+    path: prompt.md
+    mode: append
+  skills:
+    - name: threat-review
+      path: skills/threat-review
+      required: true
+  capabilities:
+    required:
+      - id: filesystem.read
+        reason: Inspect approved source, configuration, and security documentation.
+      - id: source-control.read
+        reason: Review diffs and relevant history without changing them.
+      - id: room.message
+        reason: Return findings and escalation guidance to the room.
+    optional:
+      - id: shell.execute
+        reason: Run approved non-destructive local checks against the workspace.
+        approval: ask
+      - id: network.fetch
+        reason: Read approved primary advisories and vendor documentation.
+        approval: ask
+      - id: issues.read
+        reason: Understand known vulnerabilities and accepted risk.
+    denied:
+      - id: filesystem.write
+        reason: The reference reviewer proposes remediation but does not modify code.
+      - id: source-control.write
+        reason: The role cannot commit, push, or merge security changes.
+      - id: issues.write
+        reason: Findings are disclosed through the approved human process.
+      - id: secrets.use
+        reason: The reviewer must not retrieve or exercise credentials.
+      - id: browser.operate
+        reason: Active testing requires a separately scoped and authorized role.
+      - id: external.publish
+        reason: Vulnerability disclosure requires responsible human coordination.
+      - id: money.spend
+        reason: The role cannot purchase tools or approve remediation budgets.
+      - id: legal.commit
+        reason: The role cannot make disclosure, compliance, or liability commitments.
+  isolation:
+    scope: session
+    context: workspace
+    filesystem: read-only
+    network: approval-required
+  limits:
+    maxTurns: 20
+  compatibility:
+    rolehub: '>=0.1.0 <0.2.0'
+  secrets: []
+  evals:
+    path: evals/cases.yaml

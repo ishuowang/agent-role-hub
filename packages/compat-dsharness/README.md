@@ -9,13 +9,22 @@ returned callback to `ctx.agents.create()` or `ctx.agents.resume()`; it must not
 package with `dsh plugin add`. The Agent scope owns every prompt, skill, restriction, and
 execution-guard effect, so setup failure or `AgentHandle.dispose()` unwinds them together.
 
+If you want a ready-to-install DSH plugin rather than embedding this library in your own
+Host, use [`dsh-rolehub-bridge`](https://github.com/ishuowang/dsh-rolehub-bridge). It owns
+remote Hub discovery, bundle verification, effective policy, continuable role Sessions,
+native UI, and optional Agent Team Room attachment.
+
 Both `tools.restrict()` and a monotonic `tools.guard()` are installed. The guard is required
 because DSHarness intentionally lets tools registered later in the Agent's own scope bypass
 inherited-tool restrictions; an unbound scoped tool is therefore denied at execution time.
 
 ## Install
 
-After the v0.2.0 npm release, install the library beside a compatible DSHarness host:
+Until the v0.2.0 packages are published to npm, their exact npm tarballs and SHA-256
+digests are attached to the versioned
+[`v0.2.0` release](https://github.com/ishuowang/agent-role-hub/releases/tag/v0.2.0). The
+installable bridge consumes those artifacts. After npm publication, install the library
+beside a compatible DSHarness host:
 
 ```bash
 npm install @ishuowang/rolehub-core@0.2.0 \

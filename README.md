@@ -184,6 +184,11 @@ be pinned to the tested DSHarness range and revalidated on upgrades. Read the no
 [OpenCode](docs/compatibility/opencode.md), [Pi](docs/compatibility/pi.md), and
 [DSHarness](docs/compatibility/dsharness.md).
 
+The compatibility package is the reusable Agent-scope library. For an installable DSH
+Profile Bundle with Hub discovery, digest-pinned role Sessions, native UI, and optional
+Agent Team Room attachment, use
+[`dsh-rolehub-bridge`](https://github.com/ishuowang/dsh-rolehub-bridge).
+
 ## Community model
 
 GitHub is the contribution and review plane: pull requests, CODEOWNERS, provenance,

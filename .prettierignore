@@ -4,3 +4,5 @@ coverage
 *.tgz
 site/catalog.json
 catalog/index.json
+site/compatibility.json
+compatibility/index.json

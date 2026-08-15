@@ -3,11 +3,14 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Portable, verifiable agent roles for every AI harness." />
+    <meta
+      name="description"
+      content="Universal, verifiable agent roles with independently versioned compatibility packages."
+    />
     <meta name="theme-color" content="#0b0e14" />
     <title>RoleHub — one role, any harness</title>
-    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="./styles.css" />
+    <link rel="icon" href="./favicon.svg?v=0.2.0" type="image/svg+xml" />
+    <link rel="stylesheet" href="./styles.css?v=0.2.0" />
   </head>
   <body>
     <div class="noise" aria-hidden="true"></div>
@@ -33,7 +36,8 @@
         <span>RoleHub</span>
       </a>
       <nav aria-label="Main navigation">
-        <a href="#catalog">Catalog</a>
+        <a href="#catalog">Roles</a>
+        <a href="#compatibility">Compatibility</a>
         <a href="https://github.com/ishuowang/agent-role-hub/tree/main/docs">Docs</a>
         <a class="github" href="https://github.com/ishuowang/agent-role-hub">GitHub ↗</a>
       </nav>
@@ -41,41 +45,38 @@
 
     <main id="top">
       <section class="hero shell">
-        <div class="eyebrow"><span></span> Open role protocol · v1alpha1</div>
+        <div class="eyebrow"><span></span> Universal role catalog · v1alpha2</div>
         <h1>One role.<br /><em>Any harness.</em></h1>
         <p class="lede">
-          Package a role once—prompt, skills, capability intent, approvals, and evals—then compile
-          it safely for Claude Code, Codex, OpenCode, Pi, DSH, or the next harness.
+          Keep identity portable: prompt, skills, capability intent, approvals, and evals live in
+          one universal role. Pick a compatibility package only when it is time to run.
         </p>
         <div class="hero-actions">
           <a class="button primary" href="#catalog">Explore roles</a>
-          <a
-            class="button secondary"
-            href="https://github.com/ishuowang/agent-role-hub/blob/main/CONTRIBUTING.md"
-            >Publish a role</a
-          >
+          <a class="button secondary" href="#compatibility">Choose compatibility</a>
         </div>
-        <div class="harnesses" aria-label="Supported harness adapters">
-          <span>Claude Code</span><i></i><span>Codex</span><i></i><span>OpenCode</span><i></i
-          ><span>Pi</span><i></i><span>DSH</span>
+        <div class="harnesses" aria-label="Available harness compatibility packages">
+          <span>Claude Code</span><i></i><span>Codex</span><i></i><span>DeepSeek Harness</span
+          ><i></i><span>OpenCode</span><i></i><span>Pi</span>
         </div>
       </section>
 
       <section class="principle shell" aria-label="RoleHub principles">
         <article>
-          <b>Portable intent</b>
+          <b>Universal role</b>
+          <p>Role authors describe durable intent once, without embedding a platform matrix.</p>
+        </article>
+        <article>
+          <b>Explicit bridge</b>
           <p>
-            The protocol belongs to no vendor. Adapters translate without rewriting the source role.
+            Compatibility is selected at export or runtime and evolves on its own release cycle.
           </p>
         </article>
         <article>
-          <b>Fail-closed export</b>
-          <p>Unsupported required permissions are errors, never invisible omissions.</p>
-        </article>
-        <article>
-          <b>Digest-pinned</b>
+          <b>Fail-closed grants</b>
           <p>
-            Rooms load immutable role artifacts. A floating branch never changes a running identity.
+            Effective access intersects role intent, compatibility support, host and room policy,
+            and explicit user grants.
           </p>
         </article>
       </section>
@@ -83,10 +84,13 @@
       <section class="catalog shell" id="catalog">
         <div class="section-heading">
           <div>
-            <span class="kicker">Community catalog</span>
+            <span class="kicker">Universal role catalog</span>
             <h2>Invite the right mind.</h2>
           </div>
-          <p>Every card exposes capability and compatibility posture before installation.</p>
+          <p>
+            Every role is platform-neutral by definition. Search by purpose; decide where it runs
+            later.
+          </p>
         </div>
 
         <div class="toolbar">
@@ -95,25 +99,34 @@
             <input
               id="search"
               type="search"
-              placeholder="Search roles, skills, or capabilities…"
+              placeholder="Search roles, domains, or capabilities…"
               autocomplete="off"
             />
           </label>
-          <div id="targets" class="targets" role="group" aria-label="Filter by harness">
-            <button class="active" data-target="all" type="button">All</button>
-            <button data-target="claude" type="button">Claude</button>
-            <button data-target="codex" type="button">Codex</button>
-            <button data-target="opencode" type="button">OpenCode</button>
-            <button data-target="pi" type="button">Pi</button>
-            <button data-target="dsh" type="button">DSH</button>
-          </div>
+          <p class="toolbar-note"><span></span> No platform filter needed</p>
         </div>
 
-        <div id="status" class="status" role="status">Loading catalog…</div>
+        <div id="role-status" class="status" role="status">Loading role catalog…</div>
         <div id="roles" class="role-grid" aria-live="polite"></div>
       </section>
 
-      <section class="flow shell">
+      <section class="compatibility shell" id="compatibility">
+        <div class="section-heading">
+          <div>
+            <span class="kicker">Independent compatibility registry</span>
+            <h2>Bridge at the edge.</h2>
+          </div>
+          <p>
+            Install only the platform layer you need. Roles stay unchanged while harness APIs move.
+          </p>
+        </div>
+        <div id="compatibility-status" class="status" role="status">
+          Loading compatibility registry…
+        </div>
+        <div id="compatibility-packages" class="compatibility-grid" aria-live="polite"></div>
+      </section>
+
+      <section class="flow shell" aria-label="RoleHub workflow">
         <div>
           <span class="step">01</span><b>Describe</b>
           <p>Declare purpose, non-goals, skills, capabilities, and approval gates.</p>
@@ -123,12 +136,12 @@
           <p>Validate content, paths, digests, provenance, and adversarial evals.</p>
         </div>
         <div>
-          <span class="step">03</span><b>Compile</b>
-          <p>Choose a harness adapter and inspect every exact or degraded mapping.</p>
+          <span class="step">03</span><b>Select</b>
+          <p>Choose an independent compatibility package for the target harness.</p>
         </div>
         <div>
           <span class="step">04</span><b>Invite</b>
-          <p>Pin the digest, approve effective grants, and attach an isolated role session.</p>
+          <p>Review effective grants, pin the digest, and attach an isolated role session.</p>
         </div>
       </section>
     </main>
@@ -141,16 +154,39 @@
 
     <template id="role-template">
       <article class="role-card">
-        <div class="role-top"><span class="trust"></span><span class="version"></span></div>
+        <div class="role-top">
+          <span class="trust"></span>
+          <span class="universal-mark"><i></i><span class="portability"></span></span>
+          <span class="version"></span>
+        </div>
         <h3></h3>
         <p class="description"></p>
         <div class="tags"></div>
-        <div class="compat"></div>
         <div class="role-bottom">
           <code class="role-id"></code><a class="role-link">View role →</a>
         </div>
       </article>
     </template>
-    <script type="module" src="./app.js"></script>
+
+    <template id="compatibility-template">
+      <article class="compatibility-card">
+        <div class="compat-card-top">
+          <span class="compat-index"></span>
+          <span class="transport"></span>
+          <span class="compat-version"></span>
+        </div>
+        <h3></h3>
+        <div class="compat-target-row">
+          <span class="compat-target"></span><code class="target-version"></code>
+        </div>
+        <p class="implementation"></p>
+        <code class="package-name"></code>
+        <div class="compat-links">
+          <a class="docs-link">Docs ↗</a><a class="package-link">Source →</a>
+        </div>
+      </article>
+    </template>
+
+    <script type="module" src="./app.js?v=0.2.0"></script>
   </body>
 </html>

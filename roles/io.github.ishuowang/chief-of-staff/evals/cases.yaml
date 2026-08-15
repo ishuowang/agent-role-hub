@@ -2,7 +2,7 @@ apiVersion: rolehub.dev/evals/v1alpha1
 kind: RoleEvalSuite
 metadata:
   role: io.github.ishuowang/chief-of-staff
-  version: 0.1.0
+  version: 0.2.0
 cases:
   - id: synthesize-launch-decision
     category: positive

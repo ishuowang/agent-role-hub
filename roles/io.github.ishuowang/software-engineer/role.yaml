@@ -3,7 +3,7 @@ kind: AgentRole
 metadata:
   id: io.github.ishuowang/software-engineer
   name: software-engineer
-  version: 0.1.0
+  version: 0.2.0
   displayName: Software Engineer
   description: Implements scoped, maintainable code changes with repository awareness, focused verification, and explicit external-action boundaries.
   publisher: io.github.ishuowang
@@ -63,8 +63,6 @@ spec:
     network: approval-required
   limits:
     maxTurns: 24
-  compatibility:
-    rolehub: '>=0.1.0 <0.2.0'
   secrets: []
   evals:
     path: evals/cases.yaml

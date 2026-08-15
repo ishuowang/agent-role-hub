@@ -1,0 +1,66 @@
+{
+  "apiVersion": "rolehub.dev/compatibility-catalog/v1alpha1",
+  "compatibilities": [
+    {
+      "apiVersion": "rolehub.dev/compatibility/v1alpha1",
+      "displayName": "Claude Code",
+      "documentation": "https://github.com/ishuowang/agent-role-hub/blob/v0.2.0/docs/compatibility/claude-code.md",
+      "id": "claude-code",
+      "implementation": "Session-scoped --agents JSON with a dedicated launcher process",
+      "packageName": "@ishuowang/rolehub-compat-claude-code",
+      "target": "Claude Code CLI",
+      "targetVersion": ">=2.1.210 <2.2.0",
+      "transport": "cli",
+      "version": "0.2.0"
+    },
+    {
+      "apiVersion": "rolehub.dev/compatibility/v1alpha1",
+      "displayName": "Codex",
+      "documentation": "https://github.com/ishuowang/agent-role-hub/blob/v0.2.0/docs/compatibility/codex.md",
+      "id": "codex",
+      "implementation": "Dedicated codex exec process with role instructions injected by an explicit CLI config override",
+      "packageName": "@ishuowang/rolehub-compat-codex",
+      "target": "Codex CLI",
+      "targetVersion": ">=0.145.0 <0.146.0",
+      "transport": "cli",
+      "version": "0.2.0"
+    },
+    {
+      "apiVersion": "rolehub.dev/compatibility/v1alpha1",
+      "displayName": "DeepSeek Harness",
+      "documentation": "https://github.com/ishuowang/agent-role-hub/blob/v0.2.0/docs/compatibility/dsharness.md",
+      "id": "dsharness",
+      "implementation": "Cordis Agent.setup composition using scoped prompt, skill, and tool registries",
+      "packageName": "@ishuowang/rolehub-compat-dsharness",
+      "target": "DeepSeek Harness Agent Scope",
+      "targetVersion": ">=0.1.0-rc.6 <0.2.0",
+      "transport": "native",
+      "version": "0.2.0"
+    },
+    {
+      "apiVersion": "rolehub.dev/compatibility/v1alpha1",
+      "displayName": "OpenCode",
+      "documentation": "https://github.com/ishuowang/agent-role-hub/blob/v0.2.0/docs/compatibility/opencode.md",
+      "id": "opencode",
+      "implementation": "Sterile HOME/XDG, sanitized workspace, and official SDK/server session control",
+      "packageName": "@ishuowang/rolehub-compat-opencode",
+      "target": "OpenCode",
+      "targetVersion": ">=1.18.18 <1.19.0",
+      "transport": "server",
+      "version": "0.2.0"
+    },
+    {
+      "apiVersion": "rolehub.dev/compatibility/v1alpha1",
+      "displayName": "Pi",
+      "documentation": "https://github.com/ishuowang/agent-role-hub/blob/v0.2.0/docs/compatibility/pi.md",
+      "id": "pi",
+      "implementation": "SDK ResourceLoader and AgentSession integration recipe with a tool allowlist",
+      "packageName": "@ishuowang/rolehub-compat-pi",
+      "target": "@earendil-works/pi-coding-agent",
+      "targetVersion": ">=0.84.2 <0.85.0",
+      "transport": "sdk",
+      "version": "0.2.0"
+    }
+  ],
+  "generatedBy": "@ishuowang/rolehub@0.2.0"
+}

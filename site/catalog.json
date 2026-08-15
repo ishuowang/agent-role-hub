@@ -1,16 +1,9 @@
 {
-  "apiVersion": "rolehub.dev/catalog/v1alpha1",
-  "generatedBy": "@ishuowang/rolehub@0.1.0",
+  "apiVersion": "rolehub.dev/catalog/v1alpha2",
+  "generatedBy": "@ishuowang/rolehub-core@0.2.0",
   "roles": [
     {
-      "adapters": [
-        "claude",
-        "codex",
-        "opencode",
-        "pi",
-        "dsh"
-      ],
-      "bundleDigest": "b3f21a47e17da05fbf05ff7d71a194117312ba8c349003bddc5237dec18d56d4",
+      "bundleDigest": "b3dfb6343d4c1c6ca9529e3be0ce6e4277d79da104a9c057dfbbdc5a15df048a",
       "capabilities": {
         "denied": [
           "filesystem.write",
@@ -37,9 +30,10 @@
       "displayName": "Chief of Staff",
       "id": "io.github.ishuowang/chief-of-staff",
       "license": "Apache-2.0",
-      "manifestDigest": "78e51d0e77e528787399ed72570951f3e5fbe6f4dd792d98da437a9eb98c2e41",
+      "manifestDigest": "f26dd57435ba78752492833881bb7cb04d76f54862bb66ab4f87b96a1d1bda1c",
       "name": "chief-of-staff",
       "path": "io.github.ishuowang/chief-of-staff",
+      "portability": "universal",
       "publisher": "io.github.ishuowang",
       "tags": [
         "leadership",
@@ -49,17 +43,10 @@
       ],
       "trust": "reference",
       "url": "https://github.com/ishuowang/agent-role-hub/tree/main/roles/io.github.ishuowang/chief-of-staff",
-      "version": "0.1.0"
+      "version": "0.2.0"
     },
     {
-      "adapters": [
-        "claude",
-        "codex",
-        "opencode",
-        "pi",
-        "dsh"
-      ],
-      "bundleDigest": "bc3114e751b2a073699fe6e0a6f804e192215f7d684f5e4b0f84dfd1914f0fb9",
+      "bundleDigest": "75c9d16e5c791fc97eb05032ee620e44e99161a3042a9e32e4c9b512732fb7a3",
       "capabilities": {
         "denied": [
           "filesystem.write",
@@ -83,9 +70,10 @@
       "displayName": "Finance Controller",
       "id": "io.github.ishuowang/finance-controller",
       "license": "Apache-2.0",
-      "manifestDigest": "38eba47dcf1dd933bbd61dd6f787445899dcb0c12498c9c1d954e510e8910538",
+      "manifestDigest": "7535f75f9e987a1c52db9ff2dbeb709cbbb4073df28c4448be272deb464edb14",
       "name": "finance-controller",
       "path": "io.github.ishuowang/finance-controller",
+      "portability": "universal",
       "publisher": "io.github.ishuowang",
       "tags": [
         "finance",
@@ -95,17 +83,10 @@
       ],
       "trust": "reference",
       "url": "https://github.com/ishuowang/agent-role-hub/tree/main/roles/io.github.ishuowang/finance-controller",
-      "version": "0.1.0"
+      "version": "0.2.0"
     },
     {
-      "adapters": [
-        "claude",
-        "codex",
-        "opencode",
-        "pi",
-        "dsh"
-      ],
-      "bundleDigest": "fcf5b836eae5b018df82f52f928f3cbbbe175f435567e0c00d3a618c2e924942",
+      "bundleDigest": "0bfd6c426244f5dc30809cd64573ab8b1927836bb46e2e19822a564ea873c182",
       "capabilities": {
         "denied": [
           "filesystem.write",
@@ -130,9 +111,10 @@
       "displayName": "Legal Counsel Assistant",
       "id": "io.github.ishuowang/legal-counsel",
       "license": "Apache-2.0",
-      "manifestDigest": "d27e0650976e82f1f25df7febb36db13ddbfba4ebe58929a31fb029e7549d96c",
+      "manifestDigest": "97711b49c3ed82b7a2311d7312746de8787f973595e48f12f4453018d43f8082",
       "name": "legal-counsel",
       "path": "io.github.ishuowang/legal-counsel",
+      "portability": "universal",
       "publisher": "io.github.ishuowang",
       "tags": [
         "legal",
@@ -142,17 +124,10 @@
       ],
       "trust": "reference",
       "url": "https://github.com/ishuowang/agent-role-hub/tree/main/roles/io.github.ishuowang/legal-counsel",
-      "version": "0.1.0"
+      "version": "0.2.0"
     },
     {
-      "adapters": [
-        "claude",
-        "codex",
-        "opencode",
-        "pi",
-        "dsh"
-      ],
-      "bundleDigest": "e9e8b71200161515b0c2e37600a9f15deedade3ced40dec167f66f42b968b8aa",
+      "bundleDigest": "e4a652ff3f6157cfa3885c79c6eca7ac24c9c191cb3abc4897271ba8f7172bd4",
       "capabilities": {
         "denied": [
           "filesystem.write",
@@ -180,9 +155,10 @@
       "displayName": "Operations Lead",
       "id": "io.github.ishuowang/operations-lead",
       "license": "Apache-2.0",
-      "manifestDigest": "2b0c77003a1a626d292be799224246c544e9ac5ec174eda69ca41574a45dbe26",
+      "manifestDigest": "f89657980ce06f60dd224baa46d05eb6ea7f3929f4d20b10e35a31f1f994f410",
       "name": "operations-lead",
       "path": "io.github.ishuowang/operations-lead",
+      "portability": "universal",
       "publisher": "io.github.ishuowang",
       "tags": [
         "operations",
@@ -192,17 +168,10 @@
       ],
       "trust": "reference",
       "url": "https://github.com/ishuowang/agent-role-hub/tree/main/roles/io.github.ishuowang/operations-lead",
-      "version": "0.1.0"
+      "version": "0.2.0"
     },
     {
-      "adapters": [
-        "claude",
-        "codex",
-        "opencode",
-        "pi",
-        "dsh"
-      ],
-      "bundleDigest": "40e58cf1a7005dd0a8ad576c1d623129501632e5832378a34b0b94226961b416",
+      "bundleDigest": "4480e421efcd82e387d88679535ad01e8047e2326e1bd52054dfc95948c50e5f",
       "capabilities": {
         "denied": [
           "filesystem.write",
@@ -230,9 +199,10 @@
       "displayName": "Research Librarian",
       "id": "io.github.ishuowang/research-librarian",
       "license": "Apache-2.0",
-      "manifestDigest": "46839e83865989e21fdb67f5de13a76bc552d72b4518e8ca2725962300f695c7",
+      "manifestDigest": "8a63ad1cc2ece2fd5941b54ce31cb13108f0b9491d09dd979146265ffec21e2c",
       "name": "research-librarian",
       "path": "io.github.ishuowang/research-librarian",
+      "portability": "universal",
       "publisher": "io.github.ishuowang",
       "tags": [
         "research",
@@ -242,17 +212,10 @@
       ],
       "trust": "reference",
       "url": "https://github.com/ishuowang/agent-role-hub/tree/main/roles/io.github.ishuowang/research-librarian",
-      "version": "0.1.0"
+      "version": "0.2.0"
     },
     {
-      "adapters": [
-        "claude",
-        "codex",
-        "opencode",
-        "pi",
-        "dsh"
-      ],
-      "bundleDigest": "d3abbcd154222ffccb2806d1d957f7364eb506b8ec1f80b0b8ca4c2e4bf11bbe",
+      "bundleDigest": "7bd0f70c95d8a4eac2963fc27070d570cc59e7b6c059d39f0007b1a9047235bc",
       "capabilities": {
         "denied": [
           "filesystem.write",
@@ -279,9 +242,10 @@
       "displayName": "Security Reviewer",
       "id": "io.github.ishuowang/security-reviewer",
       "license": "Apache-2.0",
-      "manifestDigest": "016f92ae2deddf6f245ac3ae584bd7c1469eb80c7fa74d4fda3442542357422d",
+      "manifestDigest": "5ab650e93c4c504c54fc0f9d1bad4c35544085937d2260c3e9bf24752478bf5d",
       "name": "security-reviewer",
       "path": "io.github.ishuowang/security-reviewer",
+      "portability": "universal",
       "publisher": "io.github.ishuowang",
       "tags": [
         "security",
@@ -291,17 +255,10 @@
       ],
       "trust": "reference",
       "url": "https://github.com/ishuowang/agent-role-hub/tree/main/roles/io.github.ishuowang/security-reviewer",
-      "version": "0.1.0"
+      "version": "0.2.0"
     },
     {
-      "adapters": [
-        "claude",
-        "codex",
-        "opencode",
-        "pi",
-        "dsh"
-      ],
-      "bundleDigest": "afd59b7c9d41dc25704b2597738fa50dff8cc09dd73ba9b461c9a0f016d9705d",
+      "bundleDigest": "bff795c75cc77c1633a7c2fa5b4ee1861ffa021cf99916e3e250b45e6d89a5ab",
       "capabilities": {
         "denied": [
           "secrets.use",
@@ -328,9 +285,10 @@
       "displayName": "Software Engineer",
       "id": "io.github.ishuowang/software-engineer",
       "license": "Apache-2.0",
-      "manifestDigest": "bff7d69af32a41baaa3267f6ab6e330a469ec945cfef59817be12ce73aa4e769",
+      "manifestDigest": "c046572707bcc85042e930114eafdfd3aab39322de779cd08de540ede5ed0840",
       "name": "software-engineer",
       "path": "io.github.ishuowang/software-engineer",
+      "portability": "universal",
       "publisher": "io.github.ishuowang",
       "tags": [
         "engineering",
@@ -340,7 +298,7 @@
       ],
       "trust": "reference",
       "url": "https://github.com/ishuowang/agent-role-hub/tree/main/roles/io.github.ishuowang/software-engineer",
-      "version": "0.1.0"
+      "version": "0.2.0"
     }
   ]
 }

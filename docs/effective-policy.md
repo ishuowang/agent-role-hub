@@ -1,8 +1,8 @@
 # Effective policy receipts
 
-A community role declares intent; it never grants itself access. A runnable export
-therefore requires a separate, trusted effective-policy receipt selected by the user or
-room host.
+A universal role declares intent; it never grants itself access. Runnable compatibility
+output therefore requires a separate trusted receipt selected by the user, room leader,
+or host policy engine.
 
 ```yaml
 apiVersion: rolehub.dev/policy/v1alpha1
@@ -10,7 +10,7 @@ kind: EffectiveRolePolicy
 role:
   id: io.github.ishuowang/finance-controller
   bundleDigest: <64-character digest printed by rolehub validate>
-target: opencode
+compatibility: opencode
 grants:
   - filesystem.read
   - room.message
@@ -20,24 +20,46 @@ enforcement:
   approvals: interactive-broker
   room: broker
   process: dedicated
+  configuration: isolated
 ```
 
-Pass it explicitly:
+Pass it only when explicitly selecting a compatibility package:
 
 ```bash
-rolehub export roles/io.github.ishuowang/finance-controller \
-  --target opencode \
+rolehub compat export roles/io.github.ishuowang/finance-controller \
+  --using opencode \
   --policy ./finance-controller.opencode.policy.yaml \
   --out ./exports/finance-controller
 ```
 
-The receipt is bound to the exact role bundle digest and one target. RoleHub rejects a
-receipt that grants an undeclared/denied capability, broadens filesystem or network
-isolation, targets another harness, or refers to another role version.
+The receipt binds one exact role bundle digest to one compatibility id. RoleHub rejects a
+receipt that grants an undeclared or denied capability, broadens the role's filesystem or
+network intent, selects another compatibility layer, or names another role digest.
 
-The receipt is a local trust input, not a community artifact or cryptographic proof of a
-running sandbox. Production room hosts should generate it from their policy engine,
-protect it from role-controlled writes, and include its digest in the audit record.
+The effective set is recalculated as:
+
+```text
+role requests ∩ compatibility support ∩ host policy ∩ room policy ∩ explicit grants
+```
+
+The receipt is local trusted input, not role content and not cryptographic proof that a
+sandbox is running. Production hosts should generate it from their policy engine, protect
+it from role-controlled writes, verify the claimed native enforcement, and include its
+digest in the audit record.
+
+`enforcement.configuration` is platform-neutral:
+
+- `shared` means ambient user or project harness configuration may still be discovered or
+  merged; and
+- `isolated` means the host attests that only the selected compatibility output is visible
+  to the harness—for example through sterile HOME/XDG directories and a sanitized
+  workspace.
+
+Configuration isolation does not imply filesystem, network, process, or approval
+isolation. OpenCode can merge user and project configuration from several locations, so
+its strict compatibility plan requires `configuration: isolated` in addition to a
+dedicated process and any required OS sandbox.
 
 Exports require an empty destination directory. This prevents an earlier runnable
-configuration from surviving beside a newer report-only result.
+configuration from surviving beside a newer report-only result. Without a matching
+receipt, `--mode best-effort` writes a compatibility report but no runnable launcher.

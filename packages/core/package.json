@@ -1,0 +1,42 @@
+{
+  "name": "@ishuowang/rolehub-core",
+  "version": "0.2.0",
+  "description": "Vendor-neutral schemas, validation, packaging, and catalog primitives for portable AI roles.",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./schema/role-v1alpha1.json": "./schema/role-v1alpha1.schema.json"
+  },
+  "files": [
+    "dist",
+    "schema",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "prepack": "npm run build && node ../../scripts/normalize-package-files.mjs ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ishuowang/agent-role-hub.git",
+    "directory": "packages/core"
+  },
+  "funding": "https://ifdian.net/a/burienchow",
+  "license": "Apache-2.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": "^22.19.0 || >=24.0.0"
+  },
+  "dependencies": {
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1",
+    "tar": "^7.5.2",
+    "yaml": "^2.8.1"
+  }
+}

@@ -2,7 +2,6 @@
 name: change-implementation
 description: Implement a scoped repository change by inspecting local conventions, making a minimal patch, adding focused tests, and reporting exact verification and risk.
 license: Apache-2.0
-compatibility: RoleHub v1alpha1; instruction-only.
 metadata:
   rolehub.dev/role: software-engineer
 ---

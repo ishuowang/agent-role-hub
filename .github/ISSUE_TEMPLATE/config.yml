@@ -5,4 +5,4 @@ contact_links:
     about: Report vulnerabilities privately.
   - name: Questions and ideas
     url: https://github.com/ishuowang/agent-role-hub/discussions
-    about: Discuss roles, adapters, and protocol proposals.
+    about: Discuss universal roles, compatibility packages, and protocol proposals.

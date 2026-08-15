@@ -1,8 +1,8 @@
 <div align="center">
   <img src="assets/rolehub-mark.svg" width="112" alt="RoleHub logo">
   <h1>RoleHub</h1>
-  <p><strong>One role. Any AI harness.</strong></p>
-  <p>Portable, reviewable agent roles for Claude Code, Codex, OpenCode, Pi, DSH—and whatever comes next.</p>
+  <p><strong>One universal role. Any AI harness.</strong></p>
+  <p>Portable, reviewable agent roles—with platform mechanics kept in independently versioned compatibility packages.</p>
   <p>
     <a href="https://github.com/ishuowang/agent-role-hub/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/ishuowang/agent-role-hub/actions/workflows/ci.yml/badge.svg"></a>
     <a href="LICENSE"><img alt="Apache-2.0" src="https://img.shields.io/badge/license-Apache--2.0-a7f3d0"></a>
@@ -14,81 +14,106 @@
 
 ---
 
-RoleHub is a community protocol and registry for AI-agent roles. A role bundles its
-purpose, prompt, instruction-only skills, capability intent, approval points, isolation
-requirements, limits, and evals. Harness adapters compile that same verified source into
-the narrowest safe representation each runtime supports.
+RoleHub is a community protocol and registry for universal AI-agent roles. A role is
+platform-neutral data: purpose, prompt, instruction-only skills, capability requests,
+isolation intent, limits, and evals. It contains no Claude, Codex, OpenCode, Pi, or
+DSHarness field.
 
-DSH is one excellent runtime adapter—not the format owner. The core stays independent
-of every vendor and can grow with new harnesses.
+Harness support lives elsewhere. A compatibility package is selected only when a role is
+exported or mounted, and is released independently from the role protocol and catalog.
+DSHarness is the native DeepSeek Harness bridge—not the owner of the role format.
 
 ![RoleHub community catalog](docs/assets/catalog.png)
 
-## Why RoleHub
-
-Today, an “agent role” is usually trapped inside a tool-specific prompt, global skills
-folder, or plugin. Moving it means copying instructions, losing permission intent, and
-quietly changing behavior. RoleHub separates the portable role from runtime mechanics:
+## The split that keeps roles portable
 
 ```mermaid
 flowchart LR
-  A[Community role bundle] --> V[Schema + security validation]
-  V --> D[Immutable digest]
-  D --> P[Policy intersection]
-  P --> C{Harness adapter}
-  C --> CL[Claude Code]
-  C --> CX[Codex]
-  C --> OC[OpenCode]
-  C --> PI[Pi]
-  C --> DS[DSH]
+  subgraph Universal[Universal role supply chain]
+    R[Role bundle] --> C[Core: validate · lock · pack]
+    C --> RC[Platform-neutral role catalog]
+  end
+  subgraph Compatibility[Independent compatibility supply chain]
+    CC[Compatibility package] --> CR[Compatibility registry]
+  end
+  RC --> X[Explicit selection]
+  CR --> X
+  P[Host policy receipt] --> X
+  X --> H{Native harness boundary}
+  H --> CL[Claude Code]
+  H --> CX[Codex]
+  H --> OC[OpenCode]
+  H --> PI[Pi]
+  H --> DS[DSHarness]
 ```
 
-The effective capability set is always:
+The runnable capability set is always:
 
 ```text
-role request ∩ adapter support ∩ host policy ∩ room policy ∩ explicit user grant
+role requests ∩ compatibility support ∩ host policy ∩ room policy ∩ explicit user grants
 ```
 
-A role can request access. It can never grant access to itself.
+“Universal” means the role carries portable intent. It does not imply that every harness
+can preserve every behavior or security boundary. A role can request access; it can never
+grant access to itself.
 
 ## Quick start
 
-Requirements: Node.js 22+ and npm.
+Requirements: Node.js 22.19+ (or 24+) and npm.
 
 ```bash
 git clone https://github.com/ishuowang/agent-role-hub.git
 cd agent-role-hub
 npm ci
-npm run check
+npm run build
 
-# Inspect a verified role and its file lock
-npm exec -- rolehub inspect roles/io.github.ishuowang/software-engineer
+# Validate universal role data and inspect its reproducible lock.
+npm exec --prefix packages/cli -- rolehub validate roles
+npm exec --prefix packages/cli -- rolehub inspect roles/io.github.ishuowang/software-engineer
 
-# Preview compatibility without changing any user-global harness configuration.
-# Without an effective policy receipt this intentionally emits a report only.
-npm exec -- rolehub export roles/io.github.ishuowang/software-engineer \
-  --target codex --mode best-effort --out .rolehub-preview/codex
+# Discover compatibility independently from roles.
+npm exec --prefix packages/cli -- rolehub compat list
+npm exec --prefix packages/cli -- rolehub compat inspect codex
+
+# Preview one explicit bridge. With no policy receipt, output is report-only.
+npm exec --prefix packages/cli -- rolehub compat export roles/io.github.ishuowang/software-engineer \
+  --using codex --mode best-effort --out .rolehub-preview/codex
 ```
 
-For an automation agent, the smallest safe checkout flow is:
+For an automation agent, the safe sequence is: validate the role, inspect the selected
+compatibility package, supply a digest-bound policy receipt, review
+`.rolehub/compatibility-report.json`, then launch the harness. Export writes only beneath
+the selected output directory. It never installs tools, plugins, MCP servers, or
+credentials, and it never changes user-global harness configuration.
+
+An external compatibility package can be selected by its installed package specifier:
 
 ```bash
-git clone --depth=1 https://github.com/ishuowang/agent-role-hub.git
-cd agent-role-hub && npm ci
-npm exec -- rolehub validate roles
-npm exec -- rolehub export roles/io.github.ishuowang/research-librarian \
-  --target claude --scope session --out .rolehub-preview/claude
+npm exec --prefix packages/cli -- rolehub compat export ./roles/example \
+  --using @publisher/rolehub-compat-example \
+  --policy ./policy.yaml --out ./exports/example
 ```
 
-Review `rolehub-export.json` before launching the target harness. Exporting writes only
-to the selected output directory; it never installs tools, plugins, MCP servers, or
-credentials.
+Only load packages you trust: compatibility packages are executable host-side code. See
+[the compatibility contract](docs/compatibility-contract.md) and
+[effective policy receipts](docs/effective-policy.md).
 
-A runnable export additionally requires `--policy <receipt.yaml>`. The receipt is a
-trusted host/user input bound to the exact role bundle digest and target; it records the
-explicit grants and the filesystem, network, approval, room, and process enforcement
-actually supplied by the host. Missing or mismatched receipts produce report-only output.
-See [effective policy receipts](docs/effective-policy.md).
+Policy receipts describe native host enforcement, including a platform-neutral
+configuration boundary:
+
+```yaml
+enforcement:
+  filesystem: os-sandbox
+  network: egress-policy
+  approvals: interactive-broker
+  room: broker
+  process: dedicated
+  configuration: isolated # no ambient user/project harness config is merged
+```
+
+`configuration: isolated` is not an OS sandbox. It attests that the host supplies a
+sterile harness configuration boundary; filesystem and network enforcement remain
+separate claims.
 
 ## A role is data, not a plugin
 
@@ -110,7 +135,7 @@ metadata:
   id: io.github.ishuowang/research-librarian
   name: research-librarian
   publisher: io.github.ishuowang
-  version: 0.1.0
+  version: 0.2.0
   displayName: Research Librarian
   description: Finds, compares, and cites evidence without inventing certainty.
   license: Apache-2.0
@@ -124,71 +149,54 @@ spec:
       - { id: filesystem.read, reason: Read approved source material. }
       - { id: room.message, reason: Return a sourced brief to the room. }
     optional:
-      - { id: web.search, reason: Locate candidate primary sources., approval: ask }
+      - { id: web.search, reason: Locate primary sources., approval: ask }
     denied:
       - { id: external.publish, reason: A human owns external publication. }
   isolation:
     { scope: session, context: workspace, filesystem: read-only, network: approval-required }
   limits: { maxTurns: 16 }
-  compatibility: { rolehub: '>=0.1.0 <0.2.0' }
   secrets: []
   evals: { path: evals/cases.yaml }
 ```
 
-v1alpha1 rejects scripts, binaries, symlinks, package hooks, literal credentials, and
-path traversal. Skills are instruction-only. Trusted executable capability providers
-belong to a separate host-controlled lifecycle.
+Notice what is absent: there is no platform, adapter, target, launcher, or native tool
+name. v1alpha1 also rejects scripts, binaries, symlinks, package hooks, literal
+credentials, and path traversal. Trusted executable capability providers belong to a
+separate host-controlled lifecycle.
 
-## Harness adapters
+## Native compatibility packages
 
-| Target      | Default representation              | Skill strategy                                       | Important boundary                                     |
-| ----------- | ----------------------------------- | ---------------------------------------------------- | ------------------------------------------------------ |
-| Claude Code | Session-scoped `--agents` JSON      | Compiled into the role prompt                        | Native teams apply fewer fields than subagents         |
-| Codex       | Project `.codex/agents/<role>.toml` | Compiled to avoid global/project discovery pollution | Live parent sandbox and approval overrides still apply |
-| OpenCode    | Isolated `OPENCODE_CONFIG_DIR`      | Native explicit skills                               | Config isolation is not an OS sandbox                  |
-| Pi          | One RPC/SDK process per room member | Native explicit `--skill` paths                      | No native subagent, MCP, approval UI, or sandbox       |
-| DSH         | Agent-scoped composition            | Agent-scoped registry                                | Cold resume must rehydrate the pinned composition      |
+| Package                                 | Native implementation                         | Security boundary                                                   |
+| --------------------------------------- | --------------------------------------------- | ------------------------------------------------------------------- |
+| `@ishuowang/rolehub-compat-claude-code` | Session-scoped `--agents` JSON                | Dedicated Claude process; skills compile into its role prompt       |
+| `@ishuowang/rolehub-compat-codex`       | Custom-agent TOML + `codex exec`              | Dedicated process with explicit sandbox and approval config         |
+| `@ishuowang/rolehub-compat-opencode`    | Sterile HOME/XDG + official SDK/server        | Sanitized workspace plus separate process/container and OS sandbox  |
+| `@ishuowang/rolehub-compat-pi`          | SDK `ResourceLoader` + `AgentSession`         | Dedicated process and host OS sandbox for filesystem or shell tools |
+| `@ishuowang/rolehub-compat-dsharness`   | Cordis `CreateAgentOptions.setup` composition | Agent-scoped prompt, skills, tools, and owned lifecycle             |
 
-Every export classifies each mapping as `exact`, `degraded`, `advisory`, or
-`unsupported`. Strict mode fails closed when a required boundary cannot be preserved;
-best-effort mode produces an explicit report and never broadens permissions. If required
-behavior or enforcement is missing, best-effort is also report-only.
+Each package reports mappings as `exact`, `degraded`, `advisory`, or `unsupported`.
+Strict mode fails closed. Best-effort may explain a gap, but never broadens permissions
+and never creates a launcher when required behavior or enforcement is missing.
 
-Read the adapter notes for [Claude Code](docs/adapters/claude-code.md),
-[Codex](docs/adapters/codex.md), [OpenCode](docs/adapters/opencode.md),
-[Pi](docs/adapters/pi.md), and [DSH](docs/adapters/dsh.md).
+DeepSeek Harness is currently a **developer preview**. Its native RoleHub bridge should
+be pinned to the tested DSHarness range and revalidated on upgrades. Read the notes for
+[Claude Code](docs/compatibility/claude-code.md), [Codex](docs/compatibility/codex.md),
+[OpenCode](docs/compatibility/opencode.md), [Pi](docs/compatibility/pi.md), and
+[DSHarness](docs/compatibility/dsharness.md).
 
 ## Community model
 
 GitHub is the contribution and review plane: pull requests, CODEOWNERS, provenance,
 issues, and discussions. GitHub Releases provide immutable source artifacts for the MVP;
-OCI distribution and signed attestations are on the roadmap. The generated catalog is
-an index, never the authority for mutable role content.
+OCI distribution and signed attestations remain on the roadmap. The generated role
+catalog and compatibility registry are separate indexes, never mutable sources of truth.
 
-```mermaid
-sequenceDiagram
-  participant U as User / room leader
-  participant H as RoleHub
-  participant A as Harness adapter
-  participant R as Role session
-  U->>H: invite publisher/role@version
-  H->>H: verify schema, files, digest, policy
-  H->>A: compile a compatibility plan
-  A-->>U: mappings + required grants
-  U->>H: approve effective grants
-  H->>R: start the digest-pinned role
-  U->>H: remove role
-  H->>R: stop delivery, revoke, dispose
-```
-
-Reference roles include finance, legal, executive coordination, operations, software
+Reference roles cover finance, legal, executive coordination, operations, software
 engineering, research, and security review. They are safe starting points—not claims of
 professional authority.
 
-## Build with us
-
 - [Architecture](docs/architecture.md)
-- [Adapter contract](docs/adapter-contract.md)
+- [Compatibility contract](docs/compatibility-contract.md)
 - [Effective policy receipts](docs/effective-policy.md)
 - [Registry and trust](docs/registry.md)
 - [Roadmap](docs/roadmap.md)

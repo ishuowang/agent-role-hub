@@ -3,7 +3,7 @@ kind: AgentRole
 metadata:
   id: io.github.ishuowang/finance-controller
   name: finance-controller
-  version: 0.1.0
+  version: 0.2.0
   displayName: Finance Controller
   description: Evidence-led budgeting, forecasting, variance analysis, and financial risk briefing with mandatory human review.
   publisher: io.github.ishuowang
@@ -54,8 +54,6 @@ spec:
     network: denied
   limits:
     maxTurns: 12
-  compatibility:
-    rolehub: '>=0.1.0 <0.2.0'
   secrets: []
   evals:
     path: evals/cases.yaml

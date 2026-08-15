@@ -5,17 +5,26 @@ import test from 'node:test'
 
 import { Ajv2020 } from 'ajv/dist/2020.js'
 
-import { CAPABILITY_IDS } from '../../src/types.js'
+import { CAPABILITY_IDS } from '@ishuowang/rolehub-core'
 
 const repositoryRoot = path.resolve(import.meta.dirname, '../..')
 
 test('public schemas compile and capability vocabulary stays aligned with TypeScript', async () => {
   const roleSchema = JSON.parse(
-    await readFile(path.join(repositoryRoot, 'schema', 'role-v1alpha1.schema.json'), 'utf8'),
+    await readFile(
+      path.join(repositoryRoot, 'packages', 'core', 'schema', 'role-v1alpha1.schema.json'),
+      'utf8',
+    ),
   ) as any
   const policySchema = JSON.parse(
     await readFile(
-      path.join(repositoryRoot, 'schema', 'effective-policy-v1alpha1.schema.json'),
+      path.join(
+        repositoryRoot,
+        'packages',
+        'compat-sdk',
+        'schema',
+        'effective-policy-v1alpha1.schema.json',
+      ),
       'utf8',
     ),
   ) as any
@@ -26,4 +35,8 @@ test('public schemas compile and capability vocabulary stays aligned with TypeSc
   const policyCapabilities = policySchema.properties.grants.items.enum as string[]
   assert.deepEqual(roleCapabilities, [...CAPABILITY_IDS])
   assert.deepEqual(policyCapabilities, [...CAPABILITY_IDS])
+  assert.deepEqual(policySchema.properties.enforcement.properties.configuration.enum, [
+    'shared',
+    'isolated',
+  ])
 })

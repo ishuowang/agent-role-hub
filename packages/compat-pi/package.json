@@ -1,0 +1,43 @@
+{
+  "name": "@ishuowang/rolehub-compat-pi",
+  "version": "0.2.0",
+  "description": "RoleHub compatibility layer for Pi.",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "prepack": "npm run build && node ../../scripts/normalize-package-files.mjs ."
+  },
+  "peerDependencies": {
+    "@ishuowang/rolehub-core": "^0.2.0",
+    "@ishuowang/rolehub-compat-sdk": "^0.2.0",
+    "@earendil-works/pi-coding-agent": ">=0.84.2 <0.85.0"
+  },
+  "peerDependenciesMeta": {
+    "@earendil-works/pi-coding-agent": {
+      "optional": true
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ishuowang/agent-role-hub.git",
+    "directory": "packages/compat-pi"
+  },
+  "license": "Apache-2.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": "^22.19.0 || >=24.0.0"
+  }
+}

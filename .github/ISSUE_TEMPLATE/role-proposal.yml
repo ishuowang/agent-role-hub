@@ -25,18 +25,11 @@ body:
       description: List required/optional/denied capabilities and human approval gates.
     validations:
       required: true
-  - type: dropdown
-    id: targets
+  - type: textarea
+    id: portability
     attributes:
-      label: Initial harness targets
-      multiple: true
-      options:
-        - Claude Code
-        - Codex
-        - OpenCode
-        - Pi
-        - DSH
-        - Other
+      label: Platform-neutral behavior
+      description: Describe the role's inputs, outputs, and lifecycle without naming or configuring an AI harness.
     validations:
       required: true
   - type: textarea

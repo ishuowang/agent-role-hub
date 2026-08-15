@@ -9,16 +9,17 @@ write evals. The shared protocol stays deliberately smaller than any one harness
 2. Use a publisher namespace you control, such as `io.github.<github-user>`.
 3. Keep the bundle data-only: `role.yaml`, Markdown prompts, instruction-only skills,
    eval fixtures, documentation, and small presentation assets.
-4. Run `npm run validate` and `npm test`.
+4. Run `npm run validate:roles` and `npm test`.
 5. Open a pull request from a `feature/<short-name>` branch.
 
 The pull request must explain the role's job, non-goals, requested capabilities,
 network/filesystem posture, human approval gates, and how its evals exercise those
 boundaries.
 
-## Add or change an adapter
+## Add or change a compatibility package
 
-An adapter translates RoleHub's capability model into one harness format. Include:
+A compatibility package translates RoleHub's capability model into one harness format.
+It belongs outside `@ishuowang/rolehub-core`; a role manifest must never name it. Include:
 
 - a link to the harness's official specification or source;
 - a capability matrix marking each field as exact, degraded, advisory, or unsupported;
@@ -26,8 +27,9 @@ An adapter translates RoleHub's capability model into one harness format. Includ
 - golden export fixtures; and
 - a machine-readable export report.
 
-Do not guess undocumented target fields. A changing or experimental format must be
-version-gated and described as such.
+Do not guess undocumented harness fields. A changing or experimental format must be
+version-gated and described as such. Loading an external compatibility package executes
+trusted host code, so the CLI only loads a package the operator names explicitly.
 
 ## Review gates
 

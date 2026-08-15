@@ -1,0 +1,47 @@
+{
+  "name": "@ishuowang/rolehub",
+  "version": "0.2.0",
+  "description": "CLI for universal RoleHub roles and independently versioned compatibility layers.",
+  "type": "module",
+  "bin": {
+    "rolehub": "./dist/cli.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "prepack": "npm run build && node ../../scripts/normalize-package-files.mjs ."
+  },
+  "dependencies": {
+    "@ishuowang/rolehub-core": "^0.2.0",
+    "@ishuowang/rolehub-compat-sdk": "^0.2.0",
+    "@ishuowang/rolehub-compat-claude-code": "^0.2.0",
+    "@ishuowang/rolehub-compat-codex": "^0.2.0",
+    "@ishuowang/rolehub-compat-opencode": "^0.2.0",
+    "@ishuowang/rolehub-compat-pi": "^0.2.0",
+    "@ishuowang/rolehub-compat-dsharness": "^0.2.0",
+    "commander": "^14.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ishuowang/agent-role-hub.git",
+    "directory": "packages/cli"
+  },
+  "funding": "https://ifdian.net/a/burienchow",
+  "license": "Apache-2.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": "^22.19.0 || >=24.0.0"
+  }
+}

@@ -2,7 +2,6 @@
 name: decision-briefing
 description: Turn fragmented notes and specialist input into a concise, evidence-linked decision brief with options, trade-offs, owners, and unresolved questions.
 license: Apache-2.0
-compatibility: RoleHub v1alpha1; instruction-only and read-only.
 metadata:
   rolehub.dev/role: chief-of-staff
 ---

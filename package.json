@@ -1,63 +1,33 @@
 {
-  "name": "@ishuowang/rolehub",
-  "version": "0.1.0",
-  "description": "Portable, verifiable agent roles for Claude Code, Codex, OpenCode, Pi, DSH, and any AI harness.",
+  "name": "agent-role-hub-monorepo",
+  "version": "0.2.0",
+  "private": true,
+  "description": "Universal, verifiable AI roles with independently versioned harness compatibility layers.",
   "type": "module",
-  "bin": {
-    "rolehub": "./dist/cli.js"
-  },
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
-    }
-  },
-  "files": [
-    "dist",
-    "schema",
-    "README.md",
-    "LICENSE"
+  "workspaces": [
+    "packages/core",
+    "packages/compat-sdk",
+    "packages/compat-claude-code",
+    "packages/compat-codex",
+    "packages/compat-opencode",
+    "packages/compat-pi",
+    "packages/compat-dsharness",
+    "packages/cli"
   ],
   "scripts": {
-    "build": "tsc -p tsconfig.json",
-    "prepare": "npm run build",
-    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "build": "npm run build -w @ishuowang/rolehub-core && npm run build -w @ishuowang/rolehub-compat-sdk && npm run build -w @ishuowang/rolehub-compat-claude-code && npm run build -w @ishuowang/rolehub-compat-codex && npm run build -w @ishuowang/rolehub-compat-opencode && npm run build -w @ishuowang/rolehub-compat-pi && npm run build -w @ishuowang/rolehub-compat-dsharness && npm run build -w @ishuowang/rolehub",
     "test": "tsx --test test/**/*.test.ts",
-    "validate:roles": "tsx src/cli.ts validate roles",
-    "catalog": "tsx src/cli.ts catalog build --roles roles --out catalog/index.json --site site/catalog.json",
+    "validate:roles": "node packages/cli/dist/cli.js validate roles",
+    "catalog": "node packages/cli/dist/cli.js catalog build --roles roles --out catalog/index.json --site site/catalog.json",
+    "compatibility:catalog": "node packages/cli/dist/cli.js compat catalog --out compatibility/index.json --site site/compatibility.json",
     "format:check": "prettier --check .",
     "format": "prettier --write .",
-    "check": "npm run typecheck && npm test && npm run validate:roles && npm run catalog && git diff --exit-code -- catalog/index.json site/catalog.json"
+    "check": "npm run format:check && npm run build && npm test && npm run validate:roles && npm run catalog && npm run compatibility:catalog && git diff --exit-code -- catalog/index.json compatibility/index.json site/catalog.json site/compatibility.json"
   },
-  "engines": {
-    "node": ">=22"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ishuowang/agent-role-hub.git"
-  },
-  "bugs": {
-    "url": "https://github.com/ishuowang/agent-role-hub/issues"
-  },
-  "homepage": "https://ishuowang.github.io/agent-role-hub/",
   "funding": "https://ifdian.net/a/burienchow",
-  "keywords": [
-    "ai-agents",
-    "agent-roles",
-    "claude-code",
-    "codex",
-    "opencode",
-    "pi-agent",
-    "multi-agent",
-    "agent-harness"
-  ],
   "license": "Apache-2.0",
-  "dependencies": {
-    "ajv": "^8.17.1",
-    "ajv-formats": "^3.0.1",
-    "commander": "^14.0.0",
-    "tar": "^7.5.2",
-    "yaml": "^2.8.1"
+  "engines": {
+    "node": "^22.19.0 || >=24.0.0"
   },
   "devDependencies": {
     "@types/node": "^24.10.1",

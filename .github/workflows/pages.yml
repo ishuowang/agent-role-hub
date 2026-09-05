@@ -42,5 +42,5 @@ jobs:
     steps:
       - name: Deploy Pages
         id: deployment
-        uses: actions/deploy-pages@5e98f10ce206463e411e82ac66ef0f2df79c5499 # main
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # main
 

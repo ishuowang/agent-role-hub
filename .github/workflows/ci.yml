@@ -15,7 +15,7 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@f548e57e544e1ff5a4c46bf1e1b8685f8e4a348a # main
       - name: Set up Node.js
-        uses: actions/setup-node@94196ee1d15439c1b6651cd87ef14e88ec435966 # main
+        uses: actions/setup-node@54337e0d02de9202d0948aaff36ad556375497b9 # main
         with:
           node-version: 24
           cache: npm
